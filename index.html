@@ -10,22 +10,40 @@
             --text-color: #2d3748;
             --card-bg: #ffffff;
             --primary-color: #0056b3;
+            --primary-hover: #004085;
             --border-color: #e2e8f0;
             --tag-bg: #edf2f7;
             --tag-text: #2d3748;
             --hover-shadow: 0 8px 16px rgba(0, 86, 179, 0.08);
             --callout-bg: rgba(0, 86, 179, 0.05);
+            --id-badge-bg: #e0f2fe;
+            --id-badge-text: #0369a1;
+            --id-badge-border: #bae6fd;
+            --accent-arxiv: #b31b1b;
+            --accent-orcid: #a6ce39;
+            --accent-doi: #f58220;
+            --accent-issn: #0284c7;
+            --accent-isbn: #8b5cf6;
         }
         [data-theme="dark"] {
             --bg-color: #0f172a;
             --text-color: #f1f5f9;
             --card-bg: #1e293b;
             --primary-color: #38bdf8;
+            --primary-hover: #7dd3fc;
             --border-color: #334155;
             --tag-bg: #334155;
             --tag-text: #e2e8f0;
             --hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
             --callout-bg: rgba(56, 189, 248, 0.08);
+            --id-badge-bg: #1e3a5f;
+            --id-badge-text: #7dd3fc;
+            --id-badge-border: #0369a1;
+            --accent-arxiv: #f87171;
+            --accent-orcid: #bef264;
+            --accent-doi: #fb923c;
+            --accent-issn: #38bdf8;
+            --accent-isbn: #a78bfa;
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -129,6 +147,97 @@
         
         /* Główna sekcja */
         main { flex: 1; min-width: 0; }
+
+        /* Panel zewnętrznych silników i resolvera */
+        .academic-search-panel {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+        .academic-search-panel h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .academic-search-panel p {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-bottom: 1rem;
+        }
+        .search-action-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .academic-input-wrapper {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .academic-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .academic-input:focus {
+            border-color: var(--primary-color);
+        }
+        .engine-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .engine-btn {
+            padding: 0.45rem 0.85rem;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.15s ease;
+        }
+        .engine-btn:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+            border-color: var(--primary-color);
+        }
+        .engine-btn.btn-arxiv:hover { color: #b31b1b; border-color: #b31b1b; }
+        .engine-btn.btn-orcid:hover { color: #5a8a00; border-color: #a6ce39; }
+        .engine-btn.btn-doi:hover { color: #ea580c; border-color: #f58220; }
+        .engine-btn.btn-issn:hover { color: #0284c7; border-color: #0284c7; }
+        .engine-btn.btn-isbn:hover { color: #7c3aed; border-color: #8b5cf6; }
+        .engine-btn.btn-smart {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        .engine-btn.btn-smart:hover {
+            opacity: 0.9;
+            color: white;
+        }
+        .detection-feedback {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            min-height: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
         .stats-bar { 
             display: flex; 
             justify-content: space-between; 
@@ -168,16 +277,48 @@
         .card h2 a:hover { text-decoration: underline; }
         
         .card .author {
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             color: var(--text-color);
             opacity: 0.9;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             line-height: 1.4;
         }
         .card .author strong {
             color: var(--primary-color);
             font-weight: 600;
         }
+
+        .identifiers-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 0.75rem;
+        }
+        .id-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.72rem;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            background-color: var(--id-badge-bg);
+            color: var(--id-badge-text);
+            border: 1px solid var(--id-badge-border);
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.15s, transform 0.15s;
+        }
+        .id-badge:hover {
+            transform: translateY(-1px);
+            opacity: 0.95;
+            text-decoration: underline;
+        }
+        .id-badge.badge-doi { border-color: rgba(245, 130, 32, 0.4); }
+        .id-badge.badge-issn { border-color: rgba(2, 132, 199, 0.4); }
+        .id-badge.badge-isbn { border-color: rgba(139, 92, 246, 0.4); }
+        .id-badge.badge-orcid { border-color: rgba(166, 206, 57, 0.5); }
+        .id-badge.badge-arxiv { border-color: rgba(179, 27, 27, 0.4); }
         
         .tags { 
             display: flex; 
@@ -211,6 +352,7 @@
         @media (max-width: 960px) {
             .container { flex-direction: column; padding: 1rem; }
             aside { position: static; width: 100%; top: 0; }
+            .academic-input-wrapper { flex-direction: column; }
         }
     </style>
 </head>
@@ -225,12 +367,36 @@
 
     <div class="container">
         <aside>
-            <input type="text" id="searchInput" class="search-box" placeholder="Szukaj po autorze (np. Marek Szelągowski, Peffers), tytule, opisie..." aria-label="Wyszukiwanie zasobów">
+            <input type="text" id="searchInput" class="search-box" placeholder="Szukaj: autor, DOI, ISSN, ISBN, ORCID, arXiv..." aria-label="Wyszukiwanie zasobów">
             <button id="clearFilters" class="secondary" style="width: 100%; margin-bottom: 1.5rem;" type="button">Wyczyść filtry</button>
             <div id="filtersContainer"></div>
         </aside>
 
         <main>
+            <!-- Zewnętrzne wyszukiwarki i resolver publikacji -->
+            <section class="academic-search-panel">
+                <h2>🌐 Akademicki Multi-Resolver & Bazy Globalne</h2>
+                <p>Wyszukuj w <strong>arXiv</strong>, <strong>ORCID</strong> lub bezpośrednio rozwiązuj oficjalne międzynarodowe identyfikatory publikacji (<strong>DOI</strong>, czasopism <strong>ISSN</strong>, monografii <strong>ISBN</strong>):</p>
+                
+                <div class="search-action-group">
+                    <div class="academic-input-wrapper">
+                        <input type="text" id="academicLookupInput" class="academic-input" placeholder="Wklej DOI (np. 10.17705/1jais.00140), ISSN, ISBN, ORCID, arXiv ID lub nazwisko autora..." aria-label="Identyfikator lub zapytanie naukowe">
+                        <button type="button" class="engine-btn btn-smart" onclick="resolveAcademicQuery('auto')" title="Automatyczne rozpoznanie typu identyfikatora">⚡ Rozwiąż / Szukaj</button>
+                    </div>
+                    
+                    <div class="engine-buttons">
+                        <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">Silniki docelowe:</span>
+                        <button type="button" class="engine-btn btn-arxiv" onclick="resolveAcademicQuery('arxiv')">📄 arXiv.org</button>
+                        <button type="button" class="engine-btn btn-orcid" onclick="resolveAcademicQuery('orcid')">🆔 ORCID.org</button>
+                        <button type="button" class="engine-btn btn-doi" onclick="resolveAcademicQuery('doi')">🔗 DOI System</button>
+                        <button type="button" class="engine-btn btn-issn" onclick="resolveAcademicQuery('issn')">📰 Portal ISSN</button>
+                        <button type="button" class="engine-btn btn-isbn" onclick="resolveAcademicQuery('isbn')">📚 ISBN Search</button>
+                        <button type="button" class="engine-btn" onclick="syncToLocalFilter()" title="Przenieś frazę do lokalnego filtra poniżej">📥 Filtruj w hubie</button>
+                    </div>
+                    <div id="detectionFeedback" class="detection-feedback"></div>
+                </div>
+            </section>
+
             <div class="stats-bar">
                 <span id="resultCount">Widoczne zasoby: 0</span>
             </div>
@@ -243,6 +409,7 @@
             {
                 id: 1, title: "Scopus (Elsevier)", url: "https://www.scopus.com",
                 authors: "Elsevier B.V.",
+                identifiers: { issn: "1878-3619" },
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
                 desc: "Największa baza abstraktów i cytowań z recenzowanej literatury naukowej. Wymagana do rzetelnego SLR.",
                 academicValue: "Podstawowe źródło do systematycznego przeglądu literatury (SLR) identyfikującego luki L1-L8 w obszarze dynamic BPM i sztucznej inteligencji."
@@ -250,6 +417,7 @@
             {
                 id: 2, title: "Web of Science (Clarivate)", url: "https://clarivate.com/webofsciencegroup/solutions/web-of-science/",
                 authors: "Eugene Garfield, Clarivate Analytics",
+                identifiers: { eissn: "2372-2304" },
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
                 desc: "Kluczowa baza indeksacyjna posiadająca najsilniejsze mierniki jakości (Impact Factor) dla nauk o zarządzaniu.",
                 academicValue: "Pozwala na filtrację literatury najwyższej jakości, odrzucając czasopisma drapieżne przed włączeniem do metaanalizy BPNAF."
@@ -257,6 +425,7 @@
             {
                 id: 3, title: "Business Process Management Journal", url: "https://www.emerald.com/insight/publication/issn/1463-7154",
                 authors: "Marek Szelągowski, Wil van der Aalst, Majed Al-Mashari (Emerald Publishing)",
+                identifiers: { issn: "1463-7154", eissn: "1758-4116", doi: "10.1108/BPMJ", orcid: "0000-0002-3860-2975, 0000-0002-0955-6940" },
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
                 desc: "Wiodące czasopismo publikujące badania nad BPM, procesami dynamicznymi i modelowaniem.",
                 academicValue: "Główne docelowe czasopismo do publikacji części empirycznej rozprawy oraz kluczowe źródło prac Marka Szelągowskiego i Wila van der Aalsta."
@@ -264,6 +433,7 @@
             {
                 id: 4, title: "IEEE Xplore", url: "https://ieeexplore.ieee.org/",
                 authors: "Institute of Electrical and Electronics Engineers (IEEE)",
+                identifiers: { issn: "1558-0814", doi: "10.1109/IEEESTD" },
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Wymaga licencji akademickiej",
                 desc: "Baza inżynieryjna i informatyczna. Niezbędna przy badaniach nad architekturą Multi-Agent Systems (MAS) i RL.",
                 academicValue: "Umożliwia zgłębienie warstwy technicznej agentów (Q-learning, PPO) do zastosowania w warstwie decyzyjnej cyfrowego bliźniaka."
@@ -271,6 +441,7 @@
             {
                 id: 5, title: "arXiv (cs.AI, cs.MA)", url: "https://arxiv.org/",
                 authors: "Paul Ginsparg, Cornell University",
+                identifiers: { issn: "2331-8422", arxiv: "cs.AI" },
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Access",
                 desc: "Otwarte repozytorium e-printów. Najszybsze źródło wiedzy o nowościach w modelach językowych (LLM) i systemach agentowych.",
                 academicValue: "Zapewnia dostęp do badań typu state-of-the-art w AI jeszcze przed długim cyklem recenzji wydawniczej."
@@ -278,6 +449,7 @@
             {
                 id: 6, title: "Rayyan", url: "https://www.rayyan.ai/",
                 authors: "Mourad Ouzzani, Hossam Hammady, Zbys Fedorowicz, Ahmed Elmagarmid",
+                identifiers: { doi: "10.1093/nar/gkw365", orcid: "0000-0002-9860-1926" },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Freemium",
                 desc: "Narzędzie internetowe wspierające badaczy w szybkim screeningu tytułów i abstraktów przy przeglądach systematycznych.",
                 academicValue: "Usprawnia selekcję artykułów zgodnie z wymogami metodyki PRISMA, dokumentując proces odrzucania abstraktów do załącznika rozprawy."
@@ -285,6 +457,7 @@
             {
                 id: 7, title: "VOSviewer", url: "https://www.vosviewer.com/",
                 authors: "Nees Jan van Eck, Ludo Waltman (Leiden University)",
+                identifiers: { doi: "10.1007/s11192-009-0146-3", orcid: "0000-0001-8448-4521" },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Oprogramowanie do konstruowania i wizualizacji sieci bibliometrycznych (cytowania, współwystępowanie słów kluczowych).",
                 academicValue: "Generuje mapy powiązań naukowych, pomagając zidentyfikować luki i potwierdzić marginalne przecięcie obszarów Dynamic BPM i Agentic AI."
@@ -292,6 +465,7 @@
             {
                 id: 8, title: "FlexSim", url: "https://www.flexsim.com/",
                 authors: "Bill Nordgren, FlexSim Software Products (Autodesk)",
+                identifiers: { isbn: "978-1-5275-4700-1", doi: "10.1109/WSC.2018.8632535" },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Komercyjne",
                 desc: "Oprogramowanie do symulacji zdarzeń dyskretnych 3D (DES) z modułami analitycznymi i integracją z Pythonem.",
                 academicValue: "Tworzy fizyczną/procesową warstwę cyfrowego bliźniaka w skali TRL 4-5 dla przeprowadzania eksperymentów z procesami Kategorii 2-4."
@@ -299,6 +473,7 @@
             {
                 id: 9, title: "Gymnasium (Farama Foundation)", url: "https://gymnasium.farama.org/",
                 authors: "Greg Brockman, Jordan Terry, John Schulman (Farama Foundation / OpenAI)",
+                identifiers: { arxiv: "1606.01540", doi: "10.48550/arXiv.1606.01540" },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
                 desc: "Standardowe API do projektowania środowisk uczących się ze wzmocnieniem (RL), będące forkiem OpenAI Gym.",
                 academicValue: "Służy do enkapsulacji modelu symulacyjnego w środowisko decyzyjne (stan, akcja, nagroda), na którym trenowany jest agent."
@@ -306,6 +481,7 @@
             {
                 id: 10, title: "Stable-Baselines3", url: "https://stable-baselines3.readthedocs.io/",
                 authors: "Antonin Raffin, Ashley Hill, Adam Gleave, Maximilien Rohan",
+                identifiers: { arxiv: "2005.05719", doi: "10.48550/arXiv.2005.05719" },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
                 desc: "Zestaw zwalidowanych implementacji algorytmów uczenia ze wzmocnieniem w PyTorch (PPO, SAC, A2C).",
                 academicValue: "Dostarcza zweryfikowane akademicko implementacje algorytmów decyzyjnych dla autonomicznego agenta sterującego w cyfrowym bliźniaku."
@@ -313,6 +489,7 @@
             {
                 id: 11, title: "Ray / RLlib", url: "https://docs.ray.io/en/latest/rllib/index.html",
                 authors: "Ion Stoica, Philipp Moritz, Robert Nishihara, Eric Liang (UC Berkeley / Anyscale)",
+                identifiers: { arxiv: "1712.05889", doi: "10.48550/arXiv.1712.05889" },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
                 desc: "Biblioteka open-source do wysoce skalowalnego uczenia ze wzmocnieniem i systemów wieloagentowych (MARL).",
                 academicValue: "Kluczowa technologia do testowania architektur wieloagentowych (hierarchical RL) dla złożonych procesów biznesowych."
@@ -320,6 +497,7 @@
             {
                 id: 12, title: "CrewAI", url: "https://www.crewai.com/",
                 authors: "João Moura",
+                identifiers: { doi: "10.5281/zenodo.10515124", orcid: "0009-0004-9844-3294" },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
                 desc: "Framework do orkiestracji systemów wieloagentowych opartych na modelach językowych (LLM).",
                 academicValue: "Umożliwia stworzenie w cyfrowym bliźniaku warstwy decyzyjnej opartej na rolach menedżerskich obsługujących wysoce nieustrukturyzowane wyjątki."
@@ -327,6 +505,7 @@
             {
                 id: 13, title: "PM4Py", url: "https://pm4py.fit.fraunhofer.de/",
                 authors: "Alessandro Berti, Sebastiaan J. van Zelst, Wil van der Aalst (Fraunhofer FIT)",
+                identifiers: { doi: "10.1007/978-3-030-26643-0_3", arxiv: "1905.06169", orcid: "0000-0002-0955-6940" },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Biblioteka w języku Python do Process Miningu stworzona przez Fraunhofer FIT.",
                 academicValue: "Służy do ekstrakcji wiedzy z logów wygenerowanych przez bliźniaka (zasada udokumentowania wykonania Marka Szelągowskiego) w celu oceny zachowań algorytmu."
@@ -334,6 +513,7 @@
             {
                 id: 14, title: "ProM Framework", url: "https://www.promtools.org/",
                 authors: "Wil van der Aalst, Boudewijn van Dongen, Ton Weijters (TU Eindhoven)",
+                identifiers: { doi: "10.1007/11559567_40", isbn: "978-3-540-28895-4", orcid: "0000-0002-0955-6940" },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Akademicki złoty standard w dziedzinie Process Mining; otwarta platforma analityczna.",
                 academicValue: "Pozwala na wizualną i statystyczną walidację różnic między procesem statycznym a adaptacyjnymi interwencjami agenta decyzyjnego."
@@ -341,6 +521,7 @@
             {
                 id: 15, title: "4TU.ResearchData (BPI Challenges)", url: "https://data.4tu.nl/search?q=BPI%20Challenge",
                 authors: "Wil van der Aalst, Boudewijn van Dongen (IEEE Task Force on Process Mining)",
+                identifiers: { doi: "10.4121/uuid:3926db30-f712-4394-aebc-75976070e91f", orcid: "0000-0002-0955-6940" },
                 resourceType: "Repozytoria event logów / Benchmarki", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
                 desc: "Repozytorium otwartych danych zawierające empiryczne logi zdarzeń z corocznych zawodów BPI (Business Process Intelligence).",
                 academicValue: "Dostarcza empirycznych logów zdarzeń (standard XES) dla procesów biznesowych do wstępnej kalibracji modeli w cyfrowym bliźniaku."
@@ -348,6 +529,7 @@
             {
                 id: 16, title: "Microsoft Power BI", url: "https://powerbi.microsoft.com/",
                 authors: "Thierry D'Hers, Amir Netz (Microsoft Corporation)",
+                identifiers: { isbn: "978-1-5093-0154-6" },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Wymaga licencji akademickiej",
                 desc: "Platforma Business Intelligence do tworzenia interaktywnych dashboardów, wskaźników KPI i analiz controllingowych.",
                 academicValue: "Stanowi warstwę analityczno-finansową w architekturze badawczej — pozwala generować dynamiczny wirtualny P&L oceniający efektywność decyzji agenta AI."
@@ -355,6 +537,7 @@
             {
                 id: 17, title: "Connected Papers", url: "https://www.connectedpapers.com/",
                 authors: "Eitan Anzenberg, Alex Etsin, Eddie Smolyansky",
+                identifiers: { doi: "10.1038/d41586-021-02346-4", issn: "0028-0836" },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Freemium",
                 desc: "Wizualne narzędzie do mapowania powiązanych artykułów naukowych w grafie podobieństwa.",
                 academicValue: "Pomaga prześledzić ewolucję teorii Dynamic Capabilities Davida Teece'a i odnaleźć próby jej adaptacji w systemach sztucznej inteligencji."
@@ -362,6 +545,7 @@
             {
                 id: 18, title: "DSRM Peffers' Framework Docs", url: "https://aisel.aisnet.org/jais/vol8/iss12/3/",
                 authors: "Ken Peffers, Tuure Tuunanen, Marcus A. Rothenberger, Samir Chatterjee",
+                identifiers: { doi: "10.17705/1jais.00140", issn: "1536-9323", orcid: "0000-0002-8692-0691" },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
                 desc: "Oryginalna publikacja Peffers et al. (2007) definiująca metodykę DSRM w systemach informatycznych.",
                 academicValue: "Stanowi kręgosłup metodologiczny dysertacji, determinując realizację 6 kroków: od identyfikacji problemu do komunikacji artefaktu badawczego."
@@ -369,6 +553,7 @@
             {
                 id: 19, title: "Qualtrics", url: "https://www.qualtrics.com/",
                 authors: "Ryan Smith, Scott M. Smith (Qualtrics / Silver Lake)",
+                identifiers: { isbn: "978-1-119-56425-6" },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza IV: Walidacja ekspercka (Delphi)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
                 desc: "Zaawansowana platforma badawcza do projektowania ankiet i paneli ekspertów.",
                 academicValue: "Podstawowe środowisko do przeprowadzenia wielorundowych badań techniką Delphi walidujących opracowany model 3D-BPNAF."
@@ -376,6 +561,7 @@
             {
                 id: 20, title: "Python (pandas, scipy, statsmodels)", url: "https://www.python.org/",
                 authors: "Wes McKinney (pandas), Travis Oliphant (scipy/numpy), Guido van Rossum (Python)",
+                identifiers: { doi: "10.1038/s41592-019-0686-2", isbn: "978-1-4919-5766-0", issn: "1548-7091" },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Open Source",
                 desc: "Ekosystem języka Python do zaawansowanej analizy danych, wnioskowania ekonometrycznego i testów statystycznych.",
                 academicValue: "Kluczowe środowisko do weryfikacji hipotez ramowych (H1-H3) — obliczanie istotności wariancji, efektów moderacji oraz ROI z eksperymentów symulacyjnych."
@@ -383,6 +569,7 @@
             {
                 id: 21, title: "Kaggle (Financial & Process Datasets)", url: "https://www.kaggle.com/",
                 authors: "Anthony Goldbloom, Nicholas Gruen (Google LLC)",
+                identifiers: { doi: "10.1145/3097983.3098188", issn: "1559-1662" },
                 resourceType: "Repozytoria event logów / Benchmarki", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Open Access",
                 desc: "Platforma data science zawierająca publiczne zbiory danych z procesów finansowych i transakcyjnych.",
                 academicValue: "Dostarcza danych empirycznych do kalibracji modeli kosztowych i parametrów zakłóceń w warstwie symulacyjnej cyfrowego bliźniaka."
@@ -390,6 +577,7 @@
             {
                 id: 22, title: "BPMN 2.0 / CMMN 1.1 Specification (OMG)", url: "https://www.omg.org/",
                 authors: "Stephen A. White, Object Management Group (OMG)",
+                identifiers: { isbn: "978-0-9829280-0-4", doi: "10.1007/978-3-642-19816-8_1" },
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
                 desc: "Oficjalne specyfikacje standardów BPMN (Business Process Model and Notation) oraz CMMN (Case Management Model and Notation).",
                 academicValue: "Podstawa teoretyczna do wyznaczenia granic, w których notacja z góry narzucona ustępuje modelowaniu dynamicznemu i adaptacyjnemu sterowanemu przez agenta."
@@ -397,6 +585,7 @@
             {
                 id: 23, title: "Litmaps", url: "https://www.litmaps.com/",
                 authors: "Kyle Webster, Digmy Varghese, David Teece (teoria bazowa)",
+                identifiers: { doi: "10.1002/(SICI)1097-0266(199708)18:7<509::AID-SMJ882>3.0.CO;2-Z", issn: "0143-2095", orcid: "0000-0002-5367-1763" },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic Capabilities (Teece)", accessModel: "Freemium",
                 desc: "Narzędzie mapujące publikacje na osi czasu z zaawansowaną analizą cytowań wstecznych i w przód.",
                 academicValue: "Kluczowe przy identyfikacji transferu koncepcji zdolności dynamicznych (David Teece, 1997) na grunt autonomicznych systemów decyzyjnych."
@@ -404,6 +593,7 @@
             {
                 id: 24, title: "PettingZoo", url: "https://pettingzoo.farama.org/",
                 authors: "Jordan Terry, Benjamin Black, Nathaniel Grammel, John Schulman",
+                identifiers: { arxiv: "2009.14471", doi: "10.48550/arXiv.2009.14471" },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
                 desc: "Biblioteka Pythona do modelowania środowisk wieloagentowych (Multi-Agent RL), standaryzująca interfejsy dla gier i symulacji zespołowych.",
                 academicValue: "Niezbędna, gdy cyfrowy bliźniak symuluje procesy, w których współdziałają (bądź konkurują) agenty reprezentujące odrębne jednostki organizacyjne."
@@ -411,6 +601,7 @@
             {
                 id: 25, title: "Miro", url: "https://miro.com/",
                 authors: "Andrey Khusid, Oleg Shardin (RealtimeBoard Inc.)",
+                identifiers: { isbn: "978-1-119-75685-9" },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza IV: Walidacja ekspercka (Delphi)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Freemium",
                 desc: "Interaktywna tablica wirtualna do wizualizacji koncepcji, diagramów i współpracy zespołowej.",
                 academicValue: "Środowisko do moderowania warsztatów panelu ekspertów podczas ewaluacji użyteczności artefaktu 3D-BPNAF."
@@ -457,6 +648,14 @@
             });
         }
 
+        // Pomocnicza funkcja generująca ciąg identyfikatorów
+        function getIdentifiersText(item) {
+            if (!item.identifiers) return '';
+            return Object.entries(item.identifiers)
+                .map(([k, v]) => `${k}:${v}`)
+                .join(' ');
+        }
+
         function renderCards() {
             const activeFilters = {};
             filterCategories.forEach(cat => activeFilters[cat.key] = []);
@@ -469,10 +668,11 @@
             const queryTokens = query ? query.split(/\s+/).filter(t => t.length > 0) : [];
             
             const filteredData = DATABASE.filter(item => {
-                // Łączymy wszystkie pola tekstowe w jeden ciąg wyszukiwania
-                const searchableText = `${item.title} ${item.authors} ${item.desc} ${item.academicValue} ${item.resourceType} ${item.researchPhase} ${item.dimension}`.toLowerCase();
+                const idsText = getIdentifiersText(item);
+                // Łączymy wszystkie pola tekstowe łącznie z identyfikatorami (DOI, ISSN, ISBN, ORCID, arXiv)
+                const searchableText = `${item.title} ${item.authors} ${idsText} ${item.desc} ${item.academicValue} ${item.resourceType} ${item.researchPhase} ${item.dimension}`.toLowerCase();
                 
-                // Każdy wpisany token (np. imię i nazwisko w dowolnej kolejności) musi występować w zasobie
+                // Każdy wpisany token (np. "1463-7154" lub nazwisko autora) musi występować w zasobie
                 const matchText = queryTokens.length === 0 || queryTokens.every(token => searchableText.includes(token));
                 
                 let matchFilters = true;
@@ -501,9 +701,41 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 
+                // Generowanie klikalnych badge'y identyfikatorów
+                let idsHtml = '';
+                if (item.identifiers) {
+                    const badges = [];
+                    if (item.identifiers.doi) {
+                        badges.push(`<a class="id-badge badge-doi" href="https://doi.org/${item.identifiers.doi}" target="_blank" rel="noopener noreferrer" title="Rozwiąż w oficjalnym rejestrze DOI">DOI: ${item.identifiers.doi}</a>`);
+                    }
+                    if (item.identifiers.issn) {
+                        badges.push(`<a class="id-badge badge-issn" href="https://portal.issn.org/resource/ISSN/${item.identifiers.issn}" target="_blank" rel="noopener noreferrer" title="Sprawdź w rejestrze ISSN Portal">ISSN: ${item.identifiers.issn}</a>`);
+                    }
+                    if (item.identifiers.eissn) {
+                        badges.push(`<a class="id-badge badge-issn" href="https://portal.issn.org/resource/ISSN/${item.identifiers.eissn}" target="_blank" rel="noopener noreferrer" title="Sprawdź e-ISSN">e-ISSN: ${item.identifiers.eissn}</a>`);
+                    }
+                    if (item.identifiers.isbn) {
+                        badges.push(`<a class="id-badge badge-isbn" href="https://isbnsearch.org/isbn/${item.identifiers.isbn.replace(/-/g, '')}" target="_blank" rel="noopener noreferrer" title="Wyszukaj książkę/monografię w bazie ISBN">ISBN: ${item.identifiers.isbn}</a>`);
+                    }
+                    if (item.identifiers.arxiv) {
+                        const arxivLink = item.identifiers.arxiv.startsWith('http') ? item.identifiers.arxiv : (item.identifiers.arxiv.includes('.') ? `https://arxiv.org/abs/${item.identifiers.arxiv}` : `https://arxiv.org/archive/${item.identifiers.arxiv}`);
+                        badges.push(`<a class="id-badge badge-arxiv" href="${arxivLink}" target="_blank" rel="noopener noreferrer" title="Otwórz preprint w arXiv.org">arXiv: ${item.identifiers.arxiv}</a>`);
+                    }
+                    if (item.identifiers.orcid) {
+                        const orcids = item.identifiers.orcid.split(',').map(s => s.trim());
+                        orcids.forEach(orc => {
+                            badges.push(`<a class="id-badge badge-orcid" href="https://orcid.org/${orc}" target="_blank" rel="noopener noreferrer" title="Profil naukowca w ORCID">ORCID: ${orc}</a>`);
+                        });
+                    }
+                    if (badges.length > 0) {
+                        idsHtml = `<div class="identifiers-list">${badges.join('')}</div>`;
+                    }
+                }
+                
                 card.innerHTML = `
                     <h2><a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a></h2>
                     <div class="author"><strong>Autor / Twórca:</strong> ${item.authors}</div>
+                    ${idsHtml}
                     <div class="tags">
                         <span class="tag">${item.resourceType}</span>
                         <span class="tag">${item.researchPhase}</span>
@@ -517,6 +749,129 @@
                 container.appendChild(card);
             });
         }
+
+        // ==========================================
+        // Obsługa zewnętrznego Multi-Resolvera Akademickiego
+        // ==========================================
+        function resolveAcademicQuery(engine) {
+            const input = document.getElementById('academicLookupInput');
+            const feedback = document.getElementById('detectionFeedback');
+            let query = input.value.trim();
+            
+            if (!query) {
+                feedback.textContent = 'Wpisz identyfikator (DOI, ISSN, ISBN, ORCID, arXiv) lub frazę/autora przed kliknięciem.';
+                feedback.style.color = '#ef4444';
+                input.focus();
+                return;
+            }
+
+            // Normalizacja prefiksów
+            const cleanQuery = query.replace(/^(doi:|https?:\/\/doi\.org\/)/i, '')
+                                    .replace(/^(https?:\/\/orcid\.org\/)/i, '')
+                                    .replace(/^(arxiv:)/i, '')
+                                    .trim();
+
+            let targetUrl = '';
+            let detectedType = '';
+
+            // Wykrywanie automatyczne lub wymuszony silnik
+            if (engine === 'auto') {
+                // 1. Sprawdzenie DOI: np. 10.1000/182 lub 10.xxxx/...
+                if (/^10\.\d{4,9}\/[-._;()/:A-Za-z0-9]+$/i.test(cleanQuery)) {
+                    targetUrl = `https://doi.org/${cleanQuery}`;
+                    detectedType = `Wykryto numer DOI (${cleanQuery}) → Przekierowanie do rejestru DOI.org`;
+                }
+                // 2. Sprawdzenie ORCID: 0000-000x-xxxx-xxxx
+                else if (/^0000-000[1-3]-\d{4}-\d{3}[\dX]$/i.test(cleanQuery)) {
+                    targetUrl = `https://orcid.org/${cleanQuery}`;
+                    detectedType = `Wykryto identyfikator ORCID (${cleanQuery}) → Otwieranie profilu badacza w ORCID.org`;
+                }
+                // 3. Sprawdzenie arXiv ID: np. 2005.05719 lub 1712.05889
+                else if (/^\d{4}\.\d{4,5}(v\d+)?$/i.test(cleanQuery)) {
+                    targetUrl = `https://arxiv.org/abs/${cleanQuery}`;
+                    detectedType = `Wykryto numer arXiv (${cleanQuery}) → Otwieranie preprintu w arXiv.org`;
+                }
+                // 4. Sprawdzenie ISSN: 8 znaków (np. 1463-7154 lub 14637154)
+                else if (/^\d{4}-?\d{3}[\dX]$/i.test(cleanQuery)) {
+                    const formattedIssn = cleanQuery.length === 8 ? `${cleanQuery.slice(0, 4)}-${cleanQuery.slice(4)}` : cleanQuery;
+                    targetUrl = `https://portal.issn.org/resource/ISSN/${formattedIssn}`;
+                    detectedType = `Wykryto numer czasopisma ISSN (${formattedIssn}) → Otwieranie w oficjalnym portalu ISSN`;
+                }
+                // 5. Sprawdzenie ISBN: 10 lub 13 cyfr
+                else if (/^(97[89])?\d{9}[\dX]$/i.test(cleanQuery.replace(/[-\s]/g, ''))) {
+                    const cleanIsbn = cleanQuery.replace(/[-\s]/g, '');
+                    targetUrl = `https://isbnsearch.org/isbn/${cleanIsbn}`;
+                    detectedType = `Wykryto numer książki/monografii ISBN (${cleanIsbn}) → Otwieranie w rejestrze ISBN`;
+                }
+                // 6. Domyślnie - fraza tekstowa (wyszukaj w arXiv lub Crossref)
+                else {
+                    targetUrl = `https://arxiv.org/search/?query=${encodeURIComponent(query)}&searchtype=all`;
+                    detectedType = `Fraza badawcza → Wyszukiwanie publikacji w arXiv.org`;
+                }
+            } else if (engine === 'arxiv') {
+                if (/^\d{4}\.\d{4,5}(v\d+)?$/i.test(cleanQuery)) {
+                    targetUrl = `https://arxiv.org/abs/${cleanQuery}`;
+                    detectedType = `Otwieranie preprintu arXiv ID: ${cleanQuery}`;
+                } else {
+                    targetUrl = `https://arxiv.org/search/?query=${encodeURIComponent(query)}&searchtype=all`;
+                    detectedType = `Wyszukiwanie w arXiv dla: "${query}"`;
+                }
+            } else if (engine === 'orcid') {
+                if (/^0000-000[1-3]-\d{4}-\d{3}[\dX]$/i.test(cleanQuery)) {
+                    targetUrl = `https://orcid.org/${cleanQuery}`;
+                    detectedType = `Profil naukowca w ORCID: ${cleanQuery}`;
+                } else {
+                    targetUrl = `https://orcid.org/orcid-search/search?searchQuery=${encodeURIComponent(query)}`;
+                    detectedType = `Wyszukiwanie profilu badacza w ORCID: "${query}"`;
+                }
+            } else if (engine === 'doi') {
+                if (/^10\.\d{4,9}\/[-._;()/:A-Za-z0-9]+$/i.test(cleanQuery)) {
+                    targetUrl = `https://doi.org/${cleanQuery}`;
+                    detectedType = `Rozwiązywanie identyfikatora DOI: ${cleanQuery}`;
+                } else {
+                    targetUrl = `https://search.crossref.org/?q=${encodeURIComponent(query)}`;
+                    detectedType = `Wyszukiwanie rekordu DOI w CrossRef: "${query}"`;
+                }
+            } else if (engine === 'issn') {
+                const cleanDigits = cleanQuery.replace(/[-\s]/g, '');
+                if (cleanDigits.length === 8) {
+                    const formatted = `${cleanDigits.slice(0, 4)}-${cleanDigits.slice(4)}`;
+                    targetUrl = `https://portal.issn.org/resource/ISSN/${formatted}`;
+                    detectedType = `Otwieranie rejestru czasopisma ISSN: ${formatted}`;
+                } else {
+                    targetUrl = `https://portal.issn.org/api/search?search[]=all=${encodeURIComponent(query)}`;
+                    detectedType = `Wyszukiwanie w portalu ISSN: "${query}"`;
+                }
+            } else if (engine === 'isbn') {
+                const cleanIsbn = cleanQuery.replace(/[-\s]/g, '');
+                targetUrl = `https://isbnsearch.org/search?s=${encodeURIComponent(cleanIsbn || query)}`;
+                detectedType = `Wyszukiwanie publikacji ISBN: "${cleanIsbn || query}"`;
+            }
+
+            feedback.textContent = detectedType;
+            feedback.style.color = 'var(--primary-color)';
+
+            if (targetUrl) {
+                window.open(targetUrl, '_blank', 'noopener,noreferrer');
+            }
+        }
+
+        // Przeniesienie zapytania z panelu akademickiego do lokalnego filtra zasobów
+        function syncToLocalFilter() {
+            const query = document.getElementById('academicLookupInput').value.trim();
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = query;
+            renderCards();
+            searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            searchInput.focus();
+        }
+
+        // Nasłuchiwanie Enter w panelu akademickim
+        document.getElementById('academicLookupInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                resolveAcademicQuery('auto');
+            }
+        });
 
         document.getElementById('searchInput').addEventListener('input', renderCards);
         document.getElementById('clearFilters').addEventListener('click', () => {

@@ -22,11 +22,22 @@ Głównym celem projektu jest operacyjne wsparcie procesu badawczego rozprawy do
 * **FIN / FINC** (*Finance and Controlling*) – modelowanie rentowności, wirtualny P&L i ocena zwrotu z inwestycji (Power BI, python/statsmodels).
 * **BPNAF** (*Business Process Nature Assessment Framework*) – wielowymiarowa ocena natury, ustrukturyzowania i podatności procesów na automatyzację kognitywną.
 
-## 🔍 Wyszukiwanie i filtrowanie
+## 🌐 Wyszukiwanie, Identyfikatory Naukowe i Resolver
 
-Dashboard wyposażony jest w dynamiczne wyszukiwanie pełnotekstowe oraz tokenowe:
-* **Wyszukiwanie po autorze / twórcy:** Wpisanie imienia, nazwiska lub obu (np. *Marek Szelągowski*, *Wil van der Aalst*, *Ken Peffers*, *David Teece*, *Wes McKinney*) natychmiast filtruje powiązane publikacje, narzędzia i specyfikacje. Wyszukiwanie działa niezależnie od kolejności słów i wielkości liter.
-* **Wyszukiwanie po tytule, opisie i zastosowaniu naukowym:** Możliwość szybkiego odnalezienia bibliotek pod kątem algorytmów (np. *PPO*, *Q-learning*, *PRISMA*, *Delphi*, *TRL*).
+Dashboard został wyposażony w zintegrowany **Akademicki Multi-Resolver** oraz wyszukiwarkę tokenową obsługującą oficjalne międzynarodowe standardy identyfikacji dorobku naukowego:
+
+1. **Zewnętrzne silniki akademickie (Multi-Resolver):**
+   * **arXiv.org:** Bezpośrednie otwieranie preprintów wg numeru (np. `2005.05719`, `1712.05889`) lub wyszukiwanie literatury otwartej w repozytorium cs.AI / cs.MA.
+   * **ORCID.org:** Wyszukiwanie naukowców oraz natychmiastowe rozwiązywanie profili po 16-cyfrowym identyfikatorze badacza (np. `0000-0002-3860-2975` dla Marka Szelągowskiego, `0000-0002-0955-6940` dla Wila van der Aalsta, `0000-0002-8692-0691` dla Kena Peffersa).
+   * **DOI System (Digital Object Identifier):** Oficjalny cyfrowy identyfikator publikacji i danych (np. `10.17705/1jais.00140`, `10.1093/nar/gkw365`) – natychmiastowe rozwiązywanie via `doi.org` lub przeszukiwanie bazy CrossRef.
+   * **Portal ISSN (International Standard Serial Number):** Oficjalny międzynarodowy 8-cyfrowy identyfikator czasopism naukowych i wydawnictw ciągłych (np. `1463-7154` dla *Business Process Management Journal*, `1536-9323` dla *JAIS*).
+   * **ISBN Search (International Standard Book Number):** Międzynarodowy standard numeracji książek i monografii naukowych (10- i 13-cyfrowy, np. `978-3-540-28895-4`).
+   * **⚡ Inteligentne dopasowanie (Smart Resolver):** Automatyczne rozpoznawanie formatu wklejonego ciągu (DOI, ISSN, ISBN, ORCID, arXiv ID) i przekierowanie do odpowiedniego rejestru.
+
+2. **Lokalne filtrowanie po metadanych:**
+   * **Wyszukiwanie po autorze:** Wpisanie imienia i/lub nazwiska (np. *Marek Szelągowski*, *Wil van der Aalst*, *Ken Peffers*, *David Teece*, *Wes McKinney*) z obsługą dowolnej kolejności tokenów.
+   * **Wyszukiwanie po numerach publikacji:** Wpisanie fragmentu lub pełnego DOI, ISSN, ISBN, ORCID lub identyfikatora arXiv w polu wyszukiwania błyskawicznie filtruje wewnętrzną bazę 25 zasobów.
+   * **Interaktywne odznaki na kartach:** Każda karta prezentuje klikalne odznaki DOI, ISSN, ISBN, ORCID i arXiv przenoszące bezpośrednio do oficjalnych baz referencyjnych.
 
 ---
 
