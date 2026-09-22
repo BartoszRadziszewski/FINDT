@@ -22,6 +22,12 @@ Głównym celem projektu jest operacyjne wsparcie procesu badawczego rozprawy do
 * **FIN / FINC** (*Finance and Controlling*) – modelowanie rentowności, wirtualny P&L i ocena zwrotu z inwestycji (Power BI, python/statsmodels).
 * **BPNAF** (*Business Process Nature Assessment Framework*) – wielowymiarowa ocena natury, ustrukturyzowania i podatności procesów na automatyzację kognitywną.
 
+## 🔍 Wyszukiwanie i filtrowanie
+
+Dashboard wyposażony jest w dynamiczne wyszukiwanie pełnotekstowe oraz tokenowe:
+* **Wyszukiwanie po autorze / twórcy:** Wpisanie imienia, nazwiska lub obu (np. *Marek Szelągowski*, *Wil van der Aalst*, *Ken Peffers*, *David Teece*, *Wes McKinney*) natychmiast filtruje powiązane publikacje, narzędzia i specyfikacje. Wyszukiwanie działa niezależnie od kolejności słów i wielkości liter.
+* **Wyszukiwanie po tytule, opisie i zastosowaniu naukowym:** Możliwość szybkiego odnalezienia bibliotek pod kątem algorytmów (np. *PPO*, *Q-learning*, *PRISMA*, *Delphi*, *TRL*).
+
 ---
 
 ## 🔬 Struktura kategoryzacji (Filtry)

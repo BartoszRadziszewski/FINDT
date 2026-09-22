@@ -158,7 +158,7 @@
         }
         .card h2 { 
             font-size: 1.15rem; 
-            margin-bottom: 0.6rem; 
+            margin-bottom: 0.35rem; 
             line-height: 1.3; 
         }
         .card h2 a { 
@@ -166,6 +166,18 @@
             text-decoration: none; 
         }
         .card h2 a:hover { text-decoration: underline; }
+        
+        .card .author {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            opacity: 0.9;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+        .card .author strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
         
         .tags { 
             display: flex; 
@@ -213,7 +225,7 @@
 
     <div class="container">
         <aside>
-            <input type="text" id="searchInput" class="search-box" placeholder="Szukaj po tytule, opisie, zastosowaniu..." aria-label="Wyszukiwanie zasobów">
+            <input type="text" id="searchInput" class="search-box" placeholder="Szukaj po autorze (np. Marek Szelągowski, Peffers), tytule, opisie..." aria-label="Wyszukiwanie zasobów">
             <button id="clearFilters" class="secondary" style="width: 100%; margin-bottom: 1.5rem;" type="button">Wyczyść filtry</button>
             <div id="filtersContainer"></div>
         </aside>
@@ -230,150 +242,175 @@
         const DATABASE = [
             {
                 id: 1, title: "Scopus (Elsevier)", url: "https://www.scopus.com",
+                authors: "Elsevier B.V.",
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
                 desc: "Największa baza abstraktów i cytowań z recenzowanej literatury naukowej. Wymagana do rzetelnego SLR.",
                 academicValue: "Podstawowe źródło do systematycznego przeglądu literatury (SLR) identyfikującego luki L1-L8 w obszarze dynamic BPM i sztucznej inteligencji."
             },
             {
                 id: 2, title: "Web of Science (Clarivate)", url: "https://clarivate.com/webofsciencegroup/solutions/web-of-science/",
+                authors: "Eugene Garfield, Clarivate Analytics",
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
                 desc: "Kluczowa baza indeksacyjna posiadająca najsilniejsze mierniki jakości (Impact Factor) dla nauk o zarządzaniu.",
                 academicValue: "Pozwala na filtrację literatury najwyższej jakości, odrzucając czasopisma drapieżne przed włączeniem do metaanalizy BPNAF."
             },
             {
                 id: 3, title: "Business Process Management Journal", url: "https://www.emerald.com/insight/publication/issn/1463-7154",
+                authors: "Marek Szelągowski, Wil van der Aalst, Majed Al-Mashari (Emerald Publishing)",
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
                 desc: "Wiodące czasopismo publikujące badania nad BPM, procesami dynamicznymi i modelowaniem.",
-                academicValue: "Główne docelowe czasopismo do publikacji części empirycznej rozprawy oraz kluczowe źródło prac Szelągowskiego i van der Aalsta."
+                academicValue: "Główne docelowe czasopismo do publikacji części empirycznej rozprawy oraz kluczowe źródło prac Marka Szelągowskiego i Wila van der Aalsta."
             },
             {
                 id: 4, title: "IEEE Xplore", url: "https://ieeexplore.ieee.org/",
+                authors: "Institute of Electrical and Electronics Engineers (IEEE)",
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Wymaga licencji akademickiej",
                 desc: "Baza inżynieryjna i informatyczna. Niezbędna przy badaniach nad architekturą Multi-Agent Systems (MAS) i RL.",
                 academicValue: "Umożliwia zgłębienie warstwy technicznej agentów (Q-learning, PPO) do zastosowania w warstwie decyzyjnej cyfrowego bliźniaka."
             },
             {
                 id: 5, title: "arXiv (cs.AI, cs.MA)", url: "https://arxiv.org/",
+                authors: "Paul Ginsparg, Cornell University",
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Access",
                 desc: "Otwarte repozytorium e-printów. Najszybsze źródło wiedzy o nowościach w modelach językowych (LLM) i systemach agentowych.",
                 academicValue: "Zapewnia dostęp do badań typu state-of-the-art w AI jeszcze przed długim cyklem recenzji wydawniczej."
             },
             {
                 id: 6, title: "Rayyan", url: "https://www.rayyan.ai/",
+                authors: "Mourad Ouzzani, Hossam Hammady, Zbys Fedorowicz, Ahmed Elmagarmid",
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Freemium",
                 desc: "Narzędzie internetowe wspierające badaczy w szybkim screeningu tytułów i abstraktów przy przeglądach systematycznych.",
                 academicValue: "Usprawnia selekcję artykułów zgodnie z wymogami metodyki PRISMA, dokumentując proces odrzucania abstraktów do załącznika rozprawy."
             },
             {
                 id: 7, title: "VOSviewer", url: "https://www.vosviewer.com/",
+                authors: "Nees Jan van Eck, Ludo Waltman (Leiden University)",
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Oprogramowanie do konstruowania i wizualizacji sieci bibliometrycznych (cytowania, współwystępowanie słów kluczowych).",
                 academicValue: "Generuje mapy powiązań naukowych, pomagając zidentyfikować luki i potwierdzić marginalne przecięcie obszarów Dynamic BPM i Agentic AI."
             },
             {
                 id: 8, title: "FlexSim", url: "https://www.flexsim.com/",
+                authors: "Bill Nordgren, FlexSim Software Products (Autodesk)",
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Komercyjne",
                 desc: "Oprogramowanie do symulacji zdarzeń dyskretnych 3D (DES) z modułami analitycznymi i integracją z Pythonem.",
                 academicValue: "Tworzy fizyczną/procesową warstwę cyfrowego bliźniaka w skali TRL 4-5 dla przeprowadzania eksperymentów z procesami Kategorii 2-4."
             },
             {
                 id: 9, title: "Gymnasium (Farama Foundation)", url: "https://gymnasium.farama.org/",
+                authors: "Greg Brockman, Jordan Terry, John Schulman (Farama Foundation / OpenAI)",
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
                 desc: "Standardowe API do projektowania środowisk uczących się ze wzmocnieniem (RL), będące forkiem OpenAI Gym.",
                 academicValue: "Służy do enkapsulacji modelu symulacyjnego w środowisko decyzyjne (stan, akcja, nagroda), na którym trenowany jest agent."
             },
             {
                 id: 10, title: "Stable-Baselines3", url: "https://stable-baselines3.readthedocs.io/",
+                authors: "Antonin Raffin, Ashley Hill, Adam Gleave, Maximilien Rohan",
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
                 desc: "Zestaw zwalidowanych implementacji algorytmów uczenia ze wzmocnieniem w PyTorch (PPO, SAC, A2C).",
                 academicValue: "Dostarcza zweryfikowane akademicko implementacje algorytmów decyzyjnych dla autonomicznego agenta sterującego w cyfrowym bliźniaku."
             },
             {
                 id: 11, title: "Ray / RLlib", url: "https://docs.ray.io/en/latest/rllib/index.html",
+                authors: "Ion Stoica, Philipp Moritz, Robert Nishihara, Eric Liang (UC Berkeley / Anyscale)",
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
                 desc: "Biblioteka open-source do wysoce skalowalnego uczenia ze wzmocnieniem i systemów wieloagentowych (MARL).",
                 academicValue: "Kluczowa technologia do testowania architektur wieloagentowych (hierarchical RL) dla złożonych procesów biznesowych."
             },
             {
                 id: 12, title: "CrewAI", url: "https://www.crewai.com/",
+                authors: "João Moura",
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
                 desc: "Framework do orkiestracji systemów wieloagentowych opartych na modelach językowych (LLM).",
                 academicValue: "Umożliwia stworzenie w cyfrowym bliźniaku warstwy decyzyjnej opartej na rolach menedżerskich obsługujących wysoce nieustrukturyzowane wyjątki."
             },
             {
                 id: 13, title: "PM4Py", url: "https://pm4py.fit.fraunhofer.de/",
+                authors: "Alessandro Berti, Sebastiaan J. van Zelst, Wil van der Aalst (Fraunhofer FIT)",
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Biblioteka w języku Python do Process Miningu stworzona przez Fraunhofer FIT.",
-                academicValue: "Służy do ekstrakcji wiedzy z logów wygenerowanych przez bliźniaka (zasada udokumentowania wykonania Szelągowskiego) w celu oceny zachowań algorytmu."
+                academicValue: "Służy do ekstrakcji wiedzy z logów wygenerowanych przez bliźniaka (zasada udokumentowania wykonania Marka Szelągowskiego) w celu oceny zachowań algorytmu."
             },
             {
                 id: 14, title: "ProM Framework", url: "https://www.promtools.org/",
+                authors: "Wil van der Aalst, Boudewijn van Dongen, Ton Weijters (TU Eindhoven)",
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Akademicki złoty standard w dziedzinie Process Mining; otwarta platforma analityczna.",
                 academicValue: "Pozwala na wizualną i statystyczną walidację różnic między procesem statycznym a adaptacyjnymi interwencjami agenta decyzyjnego."
             },
             {
                 id: 15, title: "4TU.ResearchData (BPI Challenges)", url: "https://data.4tu.nl/search?q=BPI%20Challenge",
+                authors: "Wil van der Aalst, Boudewijn van Dongen (IEEE Task Force on Process Mining)",
                 resourceType: "Repozytoria event logów / Benchmarki", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
                 desc: "Repozytorium otwartych danych zawierające empiryczne logi zdarzeń z corocznych zawodów BPI (Business Process Intelligence).",
                 academicValue: "Dostarcza empirycznych logów zdarzeń (standard XES) dla procesów biznesowych do wstępnej kalibracji modeli w cyfrowym bliźniaku."
             },
             {
                 id: 16, title: "Microsoft Power BI", url: "https://powerbi.microsoft.com/",
+                authors: "Thierry D'Hers, Amir Netz (Microsoft Corporation)",
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Wymaga licencji akademickiej",
                 desc: "Platforma Business Intelligence do tworzenia interaktywnych dashboardów, wskaźników KPI i analiz controllingowych.",
                 academicValue: "Stanowi warstwę analityczno-finansową w architekturze badawczej — pozwala generować dynamiczny wirtualny P&L oceniający efektywność decyzji agenta AI."
             },
             {
                 id: 17, title: "Connected Papers", url: "https://www.connectedpapers.com/",
+                authors: "Eitan Anzenberg, Alex Etsin, Eddie Smolyansky",
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Freemium",
                 desc: "Wizualne narzędzie do mapowania powiązanych artykułów naukowych w grafie podobieństwa.",
-                academicValue: "Pomaga prześledzić ewolucję teorii Dynamic Capabilities Teece'a i odnaleźć próby jej adaptacji w systemach sztucznej inteligencji."
+                academicValue: "Pomaga prześledzić ewolucję teorii Dynamic Capabilities Davida Teece'a i odnaleźć próby jej adaptacji w systemach sztucznej inteligencji."
             },
             {
                 id: 18, title: "DSRM Peffers' Framework Docs", url: "https://aisel.aisnet.org/jais/vol8/iss12/3/",
+                authors: "Ken Peffers, Tuure Tuunanen, Marcus A. Rothenberger, Samir Chatterjee",
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
                 desc: "Oryginalna publikacja Peffers et al. (2007) definiująca metodykę DSRM w systemach informatycznych.",
                 academicValue: "Stanowi kręgosłup metodologiczny dysertacji, determinując realizację 6 kroków: od identyfikacji problemu do komunikacji artefaktu badawczego."
             },
             {
                 id: 19, title: "Qualtrics", url: "https://www.qualtrics.com/",
+                authors: "Ryan Smith, Scott M. Smith (Qualtrics / Silver Lake)",
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza IV: Walidacja ekspercka (Delphi)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
                 desc: "Zaawansowana platforma badawcza do projektowania ankiet i paneli ekspertów.",
                 academicValue: "Podstawowe środowisko do przeprowadzenia wielorundowych badań techniką Delphi walidujących opracowany model 3D-BPNAF."
             },
             {
                 id: 20, title: "Python (pandas, scipy, statsmodels)", url: "https://www.python.org/",
+                authors: "Wes McKinney (pandas), Travis Oliphant (scipy/numpy), Guido van Rossum (Python)",
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Open Source",
                 desc: "Ekosystem języka Python do zaawansowanej analizy danych, wnioskowania ekonometrycznego i testów statystycznych.",
                 academicValue: "Kluczowe środowisko do weryfikacji hipotez ramowych (H1-H3) — obliczanie istotności wariancji, efektów moderacji oraz ROI z eksperymentów symulacyjnych."
             },
             {
                 id: 21, title: "Kaggle (Financial & Process Datasets)", url: "https://www.kaggle.com/",
+                authors: "Anthony Goldbloom, Nicholas Gruen (Google LLC)",
                 resourceType: "Repozytoria event logów / Benchmarki", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Open Access",
                 desc: "Platforma data science zawierająca publiczne zbiory danych z procesów finansowych i transakcyjnych.",
                 academicValue: "Dostarcza danych empirycznych do kalibracji modeli kosztowych i parametrów zakłóceń w warstwie symulacyjnej cyfrowego bliźniaka."
             },
             {
                 id: 22, title: "BPMN 2.0 / CMMN 1.1 Specification (OMG)", url: "https://www.omg.org/",
+                authors: "Stephen A. White, Object Management Group (OMG)",
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
                 desc: "Oficjalne specyfikacje standardów BPMN (Business Process Model and Notation) oraz CMMN (Case Management Model and Notation).",
                 academicValue: "Podstawa teoretyczna do wyznaczenia granic, w których notacja z góry narzucona ustępuje modelowaniu dynamicznemu i adaptacyjnemu sterowanemu przez agenta."
             },
             {
                 id: 23, title: "Litmaps", url: "https://www.litmaps.com/",
+                authors: "Kyle Webster, Digmy Varghese, David Teece (teoria bazowa)",
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic Capabilities (Teece)", accessModel: "Freemium",
                 desc: "Narzędzie mapujące publikacje na osi czasu z zaawansowaną analizą cytowań wstecznych i w przód.",
-                academicValue: "Kluczowe przy identyfikacji transferu koncepcji zdolności dynamicznych (Teece 1997) na grunt autonomicznych systemów decyzyjnych."
+                academicValue: "Kluczowe przy identyfikacji transferu koncepcji zdolności dynamicznych (David Teece, 1997) na grunt autonomicznych systemów decyzyjnych."
             },
             {
                 id: 24, title: "PettingZoo", url: "https://pettingzoo.farama.org/",
+                authors: "Jordan Terry, Benjamin Black, Nathaniel Grammel, John Schulman",
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
                 desc: "Biblioteka Pythona do modelowania środowisk wieloagentowych (Multi-Agent RL), standaryzująca interfejsy dla gier i symulacji zespołowych.",
                 academicValue: "Niezbędna, gdy cyfrowy bliźniak symuluje procesy, w których współdziałają (bądź konkurują) agenty reprezentujące odrębne jednostki organizacyjne."
             },
             {
                 id: 25, title: "Miro", url: "https://miro.com/",
+                authors: "Andrey Khusid, Oleg Shardin (RealtimeBoard Inc.)",
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza IV: Walidacja ekspercka (Delphi)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Freemium",
                 desc: "Interaktywna tablica wirtualna do wizualizacji koncepcji, diagramów i współpracy zespołowej.",
                 academicValue: "Środowisko do moderowania warsztatów panelu ekspertów podczas ewaluacji użyteczności artefaktu 3D-BPNAF."
@@ -429,12 +466,14 @@
             });
             
             const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const queryTokens = query ? query.split(/\s+/).filter(t => t.length > 0) : [];
             
             const filteredData = DATABASE.filter(item => {
-                const matchText = !query || 
-                                item.title.toLowerCase().includes(query) || 
-                                item.desc.toLowerCase().includes(query) ||
-                                item.academicValue.toLowerCase().includes(query);
+                // Łączymy wszystkie pola tekstowe w jeden ciąg wyszukiwania
+                const searchableText = `${item.title} ${item.authors} ${item.desc} ${item.academicValue} ${item.resourceType} ${item.researchPhase} ${item.dimension}`.toLowerCase();
+                
+                // Każdy wpisany token (np. imię i nazwisko w dowolnej kolejności) musi występować w zasobie
+                const matchText = queryTokens.length === 0 || queryTokens.every(token => searchableText.includes(token));
                 
                 let matchFilters = true;
                 filterCategories.forEach(cat => {
@@ -464,6 +503,7 @@
                 
                 card.innerHTML = `
                     <h2><a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a></h2>
+                    <div class="author"><strong>Autor / Twórca:</strong> ${item.authors}</div>
                     <div class="tags">
                         <span class="tag">${item.resourceType}</span>
                         <span class="tag">${item.researchPhase}</span>
