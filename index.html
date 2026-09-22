@@ -207,6 +207,7 @@
             transform: translateY(-1px);
             border-color: var(--primary-color);
         }
+        .engine-btn.btn-scholar:hover { color: #1a73e8; border-color: #4285f4; }
         .engine-btn.btn-arxiv:hover { color: #b31b1b; border-color: #b31b1b; }
         .engine-btn.btn-orcid:hover { color: #5a8a00; border-color: #a6ce39; }
         .engine-btn.btn-scopus:hover { color: #e65100; border-color: #ff9800; }
@@ -307,6 +308,7 @@
             opacity: 0.95;
             text-decoration: underline;
         }
+        .id-badge.badge-scholar { border-color: rgba(66, 133, 244, 0.5); color: #1a73e8; }
         .id-badge.badge-doi { border-color: rgba(245, 130, 32, 0.4); }
         .id-badge.badge-issn { border-color: rgba(2, 132, 199, 0.4); }
         .id-badge.badge-isbn { border-color: rgba(139, 92, 246, 0.4); }
@@ -314,6 +316,7 @@
         .id-badge.badge-scopus { border-color: rgba(255, 152, 0, 0.5); color: #c2410c; }
         .id-badge.badge-wos { border-color: rgba(123, 31, 162, 0.5); color: #7e22ce; }
         .id-badge.badge-arxiv { border-color: rgba(179, 27, 27, 0.4); }
+        [data-theme="dark"] .id-badge.badge-scholar { color: #60a5fa; }
         [data-theme="dark"] .id-badge.badge-scopus { color: #fb923c; }
         [data-theme="dark"] .id-badge.badge-wos { color: #c084fc; }
         
@@ -364,7 +367,7 @@
 
     <div class="container">
         <aside>
-            <input type="text" id="searchInput" class="search-box" placeholder="Szukaj: autor, ORCID, Scopus ID, ResearcherID, DOI, ISSN, ISBN, arXiv..." aria-label="Wyszukiwanie zasobów">
+            <input type="text" id="searchInput" class="search-box" placeholder="Szukaj: autor, ORCID, Scopus, WoS, Scholar, DOI, ISSN, ISBN, arXiv..." aria-label="Wyszukiwanie zasobów">
             <button id="clearFilters" class="secondary" style="width: 100%; margin-bottom: 1.5rem;" type="button">Wyczyść filtry</button>
             <div id="filtersContainer"></div>
         </aside>
@@ -372,19 +375,20 @@
         <main>
             <!-- Zewnętrzne wyszukiwarki i resolver publikacji -->
             <section class="academic-search-panel">
-                <h2>🌐 Akademicki Multi-Resolver & Globalne Identyfikatory Naukowców</h2>
+                <h2>🌐 Akademicki Multi-Resolver & Bazy Globalne</h2>
                 <p>
-                    Rozwiązuj oficjalne identyfikatory naukowców (<strong>ORCID</strong>, <strong>Scopus Author ID</strong>, <strong>ResearcherID / Web of Science</strong>) oraz międzynarodowe standardy numeracji publikacji (<strong>DOI</strong>, czasopism <strong>ISSN</strong>, monografii <strong>ISBN</strong>, preprintów <strong>arXiv</strong>):
+                    Przeszukuj <strong>Google Scholar</strong>, rozwiązuj profile badaczy (<strong>ORCID</strong>, <strong>Scopus Author ID</strong>, <strong>ResearcherID</strong>) oraz międzynarodowe numery publikacji (<strong>DOI</strong>, czasopism <strong>ISSN</strong>, monografii <strong>ISBN</strong>, preprintów <strong>arXiv</strong>):
                 </p>
                 
                 <div class="search-action-group">
                     <div class="academic-input-wrapper">
-                        <input type="text" id="academicLookupInput" class="academic-input" placeholder="Wklej ORCID (0000-0002-...), Scopus ID, ResearcherID, DOI, ISSN, ISBN, arXiv ID lub nazwisko..." aria-label="Identyfikator lub zapytanie naukowe">
+                        <input type="text" id="academicLookupInput" class="academic-input" placeholder="Wklej zapytanie, ORCID (0000-0002-...), Scopus ID, ResearcherID, DOI, ISSN, ISBN, arXiv lub nazwisko..." aria-label="Identyfikator lub zapytanie naukowe">
                         <button type="button" class="engine-btn btn-smart" onclick="resolveAcademicQuery('auto')" title="Automatyczne rozpoznanie typu identyfikatora">⚡ Rozwiąż / Szukaj</button>
                     </div>
                     
                     <div class="engine-buttons">
-                        <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">Identyfikatory naukowców i bazy:</span>
+                        <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">Silniki i bazy:</span>
+                        <button type="button" class="engine-btn btn-scholar" onclick="resolveAcademicQuery('scholar')" title="Wyszukiwarka publikacji i cytowań Google Scholar">🎓 Google Scholar</button>
                         <button type="button" class="engine-btn btn-orcid" onclick="resolveAcademicQuery('orcid')" title="Open Researcher and Contributor ID">🆔 ORCID</button>
                         <button type="button" class="engine-btn btn-scopus" onclick="resolveAcademicQuery('scopus')" title="Scopus Author ID (Elsevier)">🔬 Scopus Author ID</button>
                         <button type="button" class="engine-btn btn-wos" onclick="resolveAcademicQuery('wos')" title="ResearcherID (Web of Science / Clarivate)">🏛️ ResearcherID (WoS)</button>
@@ -432,7 +436,8 @@
                     doi: "10.1108/BPMJ", 
                     orcid: "0000-0002-3860-2975, 0000-0002-0955-6940",
                     scopusAuthorId: "57193739775, 55353163300",
-                    researcherId: "AAH-4279-2021, A-3804-2008"
+                    researcherId: "AAH-4279-2021, A-3804-2008",
+                    scholarId: "Y992cM4AAAAJ, aSZZ5xYAAAAJ"
                 },
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
                 desc: "Wiodące czasopismo publikujące badania nad BPM, procesami dynamicznymi i modelowaniem.",
@@ -469,7 +474,8 @@
                     doi: "10.1007/s11192-009-0146-3", 
                     orcid: "0000-0001-8448-4521, 0000-0001-8249-1752",
                     scopusAuthorId: "23483984900, 14028448300",
-                    researcherId: "A-1717-2011"
+                    researcherId: "A-1717-2011",
+                    scholarId: "y2L2jI8AAAAJ, 81oQ4dAAAAAJ"
                 },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Oprogramowanie do konstruowania i wizualizacji sieci bibliometrycznych (cytowania, współwystępowanie słów kluczowych).",
@@ -522,7 +528,8 @@
                     doi: "10.1007/978-3-030-26643-0_3", 
                     arxiv: "1905.06169", 
                     orcid: "0000-0002-0955-6940, 0000-0002-3860-2975",
-                    scopusAuthorId: "55353163300, 57193739775"
+                    scopusAuthorId: "55353163300, 57193739775",
+                    scholarId: "aSZZ5xYAAAAJ, Y992cM4AAAAJ"
                 },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Biblioteka w języku Python do Process Miningu stworzona przez Fraunhofer FIT.",
@@ -536,7 +543,8 @@
                     isbn: "978-3-540-28895-4", 
                     orcid: "0000-0002-0955-6940",
                     scopusAuthorId: "55353163300",
-                    researcherId: "A-3804-2008"
+                    researcherId: "A-3804-2008",
+                    scholarId: "aSZZ5xYAAAAJ"
                 },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Akademicki złoty standard w dziedzinie Process Mining; otwarta platforma analityczna.",
@@ -548,7 +556,8 @@
                 identifiers: { 
                     doi: "10.4121/uuid:3926db30-f712-4394-aebc-75976070e91f", 
                     orcid: "0000-0002-0955-6940",
-                    scopusAuthorId: "55353163300"
+                    scopusAuthorId: "55353163300",
+                    scholarId: "aSZZ5xYAAAAJ"
                 },
                 resourceType: "Repozytoria event logów / Benchmarki", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
                 desc: "Repozytorium otwartych danych zawierające empiryczne logi zdarzeń z corocznych zawodów BPI (Business Process Intelligence).",
@@ -578,7 +587,8 @@
                     issn: "1536-9323", 
                     orcid: "0000-0002-8692-0691",
                     scopusAuthorId: "7004452140",
-                    researcherId: "B-5291-2013"
+                    researcherId: "B-5291-2013",
+                    scholarId: "oV73EecAAAAJ"
                 },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
                 desc: "Oryginalna publikacja Peffers et al. (2007) definiująca metodykę DSRM w systemach informatycznych.",
@@ -624,7 +634,8 @@
                     issn: "0143-2095", 
                     orcid: "0000-0002-5367-1763",
                     scopusAuthorId: "7202410313",
-                    researcherId: "H-3129-2011"
+                    researcherId: "H-3129-2011",
+                    scholarId: "FmR7L1IAAAAJ"
                 },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic Capabilities (Teece)", accessModel: "Freemium",
                 desc: "Narzędzie mapujące publikacje na osi czasu z zaawansowaną analizą cytowań wstecznych i w przód.",
@@ -645,6 +656,14 @@
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza IV: Walidacja ekspercka (Delphi)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Freemium",
                 desc: "Interaktywna tablica wirtualna do wizualizacji koncepcji, diagramów i współpracy zespołowej.",
                 academicValue: "Środowisko do moderowania warsztatów panelu ekspertów podczas ewaluacji użyteczności artefaktu 3D-BPNAF."
+            },
+            {
+                id: 26, title: "Google Scholar", url: "https://scholar.google.com",
+                authors: "Anurag Acharya, Alex Verstak (Google LLC)",
+                identifiers: { org: "Google LLC", url: "https://scholar.google.com" },
+                resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
+                desc: "Wiodąca globalna, otwarta wyszukiwarka literatury naukowej, artykułów recenzowanych, dysertacji doktorskich, książek i cytowań.",
+                academicValue: "Umożliwia pełnotekstową analizę cytowań w przód/wstecz, śledzenie h-indeksu autorów oraz identyfikację publikacji w repozytoriach instytucjonalnych i szarej literaturze."
             }
         ];
 
@@ -709,10 +728,10 @@
             
             const filteredData = DATABASE.filter(item => {
                 const idsText = getIdentifiersText(item);
-                // Łączymy wszystkie pola tekstowe łącznie z identyfikatorami (ORCID, Scopus, WoS, DOI, ISSN, ISBN, arXiv)
+                // Łączymy wszystkie pola tekstowe łącznie z identyfikatorami (Scholar, ORCID, Scopus, WoS, DOI, ISSN, ISBN, arXiv)
                 const searchableText = `${item.title} ${item.authors} ${idsText} ${item.desc} ${item.academicValue} ${item.resourceType} ${item.researchPhase} ${item.dimension}`.toLowerCase();
                 
-                // Każdy wpisany token (np. Scopus ID, ResearcherID, ORCID, nazwisko) musi występować w zasobie
+                // Każdy wpisany token (np. Scopus ID, ResearcherID, Scholar ID, ORCID, nazwisko) musi występować w zasobie
                 const matchText = queryTokens.length === 0 || queryTokens.every(token => searchableText.includes(token));
                 
                 let matchFilters = true;
@@ -764,6 +783,12 @@
                             badges.push(`<a class="id-badge badge-wos" href="https://www.webofscience.com/wos/author/record/${rid}" target="_blank" rel="noopener noreferrer" title="Profil badacza w Clarivate Web of Science (ResearcherID)">ResearcherID: ${rid}</a>`);
                         });
                     }
+                    if (item.identifiers.scholarId) {
+                        const sids = item.identifiers.scholarId.split(',').map(s => s.trim());
+                        sids.forEach(sid => {
+                            badges.push(`<a class="id-badge badge-scholar" href="https://scholar.google.com/citations?user=${sid}" target="_blank" rel="noopener noreferrer" title="Profil cytowań i h-indeksu w Google Scholar Citations">Google Scholar: ${sid}</a>`);
+                        });
+                    }
                     // Identyfikatory publikacji
                     if (item.identifiers.doi) {
                         badges.push(`<a class="id-badge badge-doi" href="https://doi.org/${item.identifiers.doi}" target="_blank" rel="noopener noreferrer" title="Rozwiąż w oficjalnym rejestrze DOI">DOI: ${item.identifiers.doi}</a>`);
@@ -813,7 +838,7 @@
             let query = input.value.trim();
             
             if (!query) {
-                feedback.textContent = 'Wpisz identyfikator (ORCID, Scopus ID, ResearcherID, DOI, ISSN, ISBN, arXiv) lub nazwisko przed kliknięciem.';
+                feedback.textContent = 'Wpisz zapytanie, identyfikator (Scholar, ORCID, Scopus, WoS, DOI, ISSN, ISBN, arXiv) lub nazwisko.';
                 feedback.style.color = '#ef4444';
                 input.focus();
                 return;
@@ -824,6 +849,7 @@
                                     .replace(/^(https?:\/\/orcid\.org\/)/i, '')
                                     .replace(/^(arxiv:)/i, '')
                                     .replace(/^(https?:\/\/www\.scopus\.com\/authid\/detail\.uri\?authorId=)/i, '')
+                                    .replace(/^(https?:\/\/scholar\.google\.com\/citations\?user=)/i, '')
                                     .trim();
 
             let targetUrl = '';
@@ -831,47 +857,62 @@
 
             // Wykrywanie automatyczne lub wymuszony silnik
             if (engine === 'auto') {
-                // 1. Sprawdzenie ORCID: 0000-000x-xxxx-xxxx
-                if (/^0000-000[1-3]-\d{4}-\d{3}[\dX]$/i.test(cleanQuery)) {
+                // 1. Sprawdzenie parametru Google Scholar Citations: user=... lub 12-znakowy identyfikator profilu
+                if (/^user=([A-Za-z0-9_-]+)$/i.test(cleanQuery)) {
+                    const userId = cleanQuery.match(/^user=([A-Za-z0-9_-]+)$/i)[1];
+                    targetUrl = `https://scholar.google.com/citations?user=${userId}`;
+                    detectedType = `Wykryto Google Scholar Citations ID (${userId}) → Otwieranie profilu cytowań`;
+                }
+                // 2. Sprawdzenie ORCID: 0000-000x-xxxx-xxxx
+                else if (/^0000-000[1-3]-\d{4}-\d{3}[\dX]$/i.test(cleanQuery)) {
                     targetUrl = `https://orcid.org/${cleanQuery}`;
                     detectedType = `Wykryto ORCID (${cleanQuery}) → Otwieranie profilu badacza w ORCID.org`;
                 }
-                // 2. Sprawdzenie ResearcherID (Web of Science): np. A-3804-2008 lub AAH-4279-2021
+                // 3. Sprawdzenie ResearcherID (Web of Science): np. A-3804-2008 lub AAH-4279-2021
                 else if (/^[A-Za-z]{1,3}-\d{4}-\d{4}$/i.test(cleanQuery)) {
                     targetUrl = `https://www.webofscience.com/wos/author/record/${cleanQuery.toUpperCase()}`;
                     detectedType = `Wykryto ResearcherID (${cleanQuery.toUpperCase()}) → Otwieranie profilu w Web of Science`;
                 }
-                // 3. Sprawdzenie Scopus Author ID: 10-11 cyfr
+                // 4. Sprawdzenie Scopus Author ID: 10-11 cyfr
                 else if (/^\d{10,11}$/.test(cleanQuery)) {
                     targetUrl = `https://www.scopus.com/authid/detail.uri?authorId=${cleanQuery}`;
                     detectedType = `Wykryto Scopus Author ID (${cleanQuery}) → Otwieranie profilu w bazie Elsevier Scopus`;
                 }
-                // 4. Sprawdzenie DOI: np. 10.1000/182 lub 10.xxxx/...
+                // 5. Sprawdzenie DOI: np. 10.1000/182 lub 10.xxxx/...
                 else if (/^10\.\d{4,9}\/[-._;()/:A-Za-z0-9]+$/i.test(cleanQuery)) {
                     targetUrl = `https://doi.org/${cleanQuery}`;
                     detectedType = `Wykryto numer DOI (${cleanQuery}) → Przekierowanie do rejestru DOI.org`;
                 }
-                // 5. Sprawdzenie arXiv ID: np. 2005.05719 lub 1712.05889
+                // 6. Sprawdzenie arXiv ID: np. 2005.05719 lub 1712.05889
                 else if (/^\d{4}\.\d{4,5}(v\d+)?$/i.test(cleanQuery)) {
                     targetUrl = `https://arxiv.org/abs/${cleanQuery}`;
                     detectedType = `Wykryto numer arXiv (${cleanQuery}) → Otwieranie preprintu w arXiv.org`;
                 }
-                // 6. Sprawdzenie ISSN: 8 znaków (np. 1463-7154 lub 14637154)
+                // 7. Sprawdzenie ISSN: 8 znaków (np. 1463-7154 lub 14637154)
                 else if (/^\d{4}-?\d{3}[\dX]$/i.test(cleanQuery)) {
                     const formattedIssn = cleanQuery.length === 8 ? `${cleanQuery.slice(0, 4)}-${cleanQuery.slice(4)}` : cleanQuery;
                     targetUrl = `https://portal.issn.org/resource/ISSN/${formattedIssn}`;
                     detectedType = `Wykryto numer czasopisma ISSN (${formattedIssn}) → Otwieranie w oficjalnym portalu ISSN`;
                 }
-                // 7. Sprawdzenie ISBN: 10 lub 13 cyfr
+                // 8. Sprawdzenie ISBN: 10 lub 13 cyfr
                 else if (/^(97[89])?\d{9}[\dX]$/i.test(cleanQuery.replace(/[-\s]/g, ''))) {
                     const cleanIsbn = cleanQuery.replace(/[-\s]/g, '');
                     targetUrl = `https://isbnsearch.org/isbn/${cleanIsbn}`;
                     detectedType = `Wykryto numer książki/monografii ISBN (${cleanIsbn}) → Otwieranie w rejestrze ISBN`;
                 }
-                // 8. Domyślnie - fraza tekstowa (wyszukaj w arXiv lub Crossref)
+                // 9. Domyślnie - fraza tekstowa (wyszukaj w Google Scholar)
                 else {
-                    targetUrl = `https://arxiv.org/search/?query=${encodeURIComponent(query)}&searchtype=all`;
-                    detectedType = `Fraza badawcza → Wyszukiwanie publikacji w arXiv.org`;
+                    targetUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(query)}`;
+                    detectedType = `Fraza badawcza → Wyszukiwanie publikacji i cytowań w Google Scholar`;
+                }
+            } else if (engine === 'scholar') {
+                if (/^user=([A-Za-z0-9_-]+)$/i.test(cleanQuery)) {
+                    const userId = cleanQuery.match(/^user=([A-Za-z0-9_-]+)$/i)[1];
+                    targetUrl = `https://scholar.google.com/citations?user=${userId}`;
+                    detectedType = `Profil autora w Google Scholar Citations: ${userId}`;
+                } else {
+                    targetUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(query)}`;
+                    detectedType = `Wyszukiwanie publikacji i cytowań w Google Scholar dla: "${query}"`;
                 }
             } else if (engine === 'orcid') {
                 if (/^0000-000[1-3]-\d{4}-\d{3}[\dX]$/i.test(cleanQuery)) {
