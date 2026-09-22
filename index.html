@@ -210,6 +210,8 @@
             border-color: var(--primary-color);
         }
         .engine-btn.btn-scholar:hover { color: #1a73e8; border-color: #4285f4; }
+        .engine-btn.btn-rg:hover { color: #00cc99; border-color: #00cc99; }
+        .engine-btn.btn-ssrn:hover { color: #003366; border-color: #003366; }
         .engine-btn.btn-arxiv:hover { color: #b31b1b; border-color: #b31b1b; }
         .engine-btn.btn-orcid:hover { color: #5a8a00; border-color: #a6ce39; }
         .engine-btn.btn-scopus:hover { color: #e65100; border-color: #ff9800; }
@@ -217,6 +219,7 @@
         .engine-btn.btn-doi:hover { color: #ea580c; border-color: #f58220; }
         .engine-btn.btn-issn:hover { color: #0284c7; border-color: #0284c7; }
         .engine-btn.btn-isbn:hover { color: #7c3aed; border-color: #8b5cf6; }
+        [data-theme="dark"] .engine-btn.btn-ssrn:hover { color: #60a5fa; border-color: #3b82f6; }
         
         .engine-btn.btn-smart {
             background-color: var(--primary-color);
@@ -325,6 +328,7 @@
             text-decoration: underline;
         }
         .id-badge.badge-scholar { border-color: rgba(66, 133, 244, 0.5); color: #1a73e8; }
+        .id-badge.badge-rg { border-color: rgba(0, 204, 153, 0.5); color: #008a66; }
         .id-badge.badge-doi { border-color: rgba(245, 130, 32, 0.4); }
         .id-badge.badge-issn { border-color: rgba(2, 132, 199, 0.4); }
         .id-badge.badge-isbn { border-color: rgba(139, 92, 246, 0.4); }
@@ -333,6 +337,7 @@
         .id-badge.badge-wos { border-color: rgba(123, 31, 162, 0.5); color: #7e22ce; }
         .id-badge.badge-arxiv { border-color: rgba(179, 27, 27, 0.4); }
         [data-theme="dark"] .id-badge.badge-scholar { color: #60a5fa; }
+        [data-theme="dark"] .id-badge.badge-rg { color: #34d399; }
         [data-theme="dark"] .id-badge.badge-scopus { color: #fb923c; }
         [data-theme="dark"] .id-badge.badge-wos { color: #c084fc; }
         
@@ -398,7 +403,7 @@
                 
                 <div class="search-action-group">
                     <div class="academic-input-wrapper">
-                        <input type="text" id="academicLookupInput" class="academic-input" placeholder="Wpisz np. BPNAF, Peffers, DOI: 10.17705..., ORCID, ISSN..." aria-label="Wyszukiwarka zasobów i identyfikatorów">
+                        <input type="text" id="academicLookupInput" class="academic-input" placeholder="Wpisz np. BPNAF, Peffers, DOI: 10.17705..., ORCID, ISSN, SSRN..." aria-label="Wyszukiwarka zasobów i identyfikatorów">
                         <button type="button" class="engine-btn btn-smart" onclick="triggerHubSearch()" title="Filtruj bazę zasobów hubu">🔍 Szukaj w hubie</button>
                         <button type="button" class="engine-btn btn-resolver" onclick="resolveAcademicQuery('auto')" title="Automatyczne rozpoznanie i rozwiązanie identyfikatora">⚡ Rozwiąż identyfikator</button>
                     </div>
@@ -406,6 +411,8 @@
                     <div class="engine-buttons">
                         <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.85;">Szukaj w bazach globalnych:</span>
                         <button type="button" class="engine-btn btn-scholar" onclick="resolveAcademicQuery('scholar')" title="Otwórz wyszukiwanie w Google Scholar">🎓 Google Scholar</button>
+                        <button type="button" class="engine-btn btn-rg" onclick="resolveAcademicQuery('rg')" title="Wyszukiwarka publikacji i badaczy w ResearchGate">👥 ResearchGate</button>
+                        <button type="button" class="engine-btn btn-ssrn" onclick="resolveAcademicQuery('ssrn')" title="Preprinty i working papers w SSRN (Social Science Research Network)">📑 SSRN</button>
                         <button type="button" class="engine-btn btn-orcid" onclick="resolveAcademicQuery('orcid')" title="Szukaj profilu w ORCID">🆔 ORCID</button>
                         <button type="button" class="engine-btn btn-scopus" onclick="resolveAcademicQuery('scopus')" title="Szukaj profilu w Elsevier Scopus">🔬 Scopus Author ID</button>
                         <button type="button" class="engine-btn btn-wos" onclick="resolveAcademicQuery('wos')" title="Szukaj w Web of Science / ResearcherID">🏛️ ResearcherID (WoS)</button>
@@ -453,7 +460,8 @@
                     orcid: "0000-0002-3860-2975, 0000-0002-0955-6940",
                     scopusAuthorId: "57193739775, 55353163300",
                     researcherId: "AAH-4279-2021, A-3804-2008",
-                    scholarId: "Y992cM4AAAAJ, aSZZ5xYAAAAJ"
+                    scholarId: "Y992cM4AAAAJ, aSZZ5xYAAAAJ",
+                    researchGate: "Marek_Szelagowski, Wil_Van_Der_Aalst"
                 },
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
                 desc: "Wiodące czasopismo publikujące badania nad BPM, procesami dynamicznymi i modelowaniem.",
@@ -478,7 +486,7 @@
             {
                 id: 6, title: "Rayyan", url: "https://www.rayyan.ai/",
                 authors: "Mourad Ouzzani, Hossam Hammady, Zbys Fedorowicz, Ahmed Elmagarmid",
-                identifiers: { doi: "10.1093/nar/gkw365", orcid: "0000-0002-9860-1926", scopusAuthorId: "6603504353" },
+                identifiers: { doi: "10.1093/nar/gkw365", orcid: "0000-0002-9860-1926", scopusAuthorId: "6603504353", researchGate: "Mourad_Ouzzani" },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Freemium",
                 desc: "Narzędzie internetowe wspierające badaczy w szybkim screeningu tytułów i abstraktów przy przeglądach systematycznych.",
                 academicValue: "Usprawnia selekcję artykułów zgodnie z wymogami metodyki PRISMA, dokumentując proces odrzucania abstraktów do załącznika rozprawy."
@@ -491,7 +499,8 @@
                     orcid: "0000-0001-8448-4521, 0000-0001-8249-1752",
                     scopusAuthorId: "23483984900, 14028448300",
                     researcherId: "A-1717-2011",
-                    scholarId: "y2L2jI8AAAAJ, 81oQ4dAAAAAJ"
+                    scholarId: "y2L2jI8AAAAJ, 81oQ4dAAAAAJ",
+                    researchGate: "Nees_Van_Eck, Ludo_Waltman"
                 },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Oprogramowanie do konstruowania i wizualizacji sieci bibliometrycznych (cytowania, współwystępowanie słów kluczowych).",
@@ -545,7 +554,8 @@
                     arxiv: "1905.06169", 
                     orcid: "0000-0002-0955-6940, 0000-0002-3860-2975",
                     scopusAuthorId: "55353163300, 57193739775",
-                    scholarId: "aSZZ5xYAAAAJ, Y992cM4AAAAJ"
+                    scholarId: "aSZZ5xYAAAAJ, Y992cM4AAAAJ",
+                    researchGate: "Wil_Van_Der_Aalst, Marek_Szelagowski"
                 },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Biblioteka w języku Python do Process Miningu stworzona przez Fraunhofer FIT.",
@@ -560,7 +570,8 @@
                     orcid: "0000-0002-0955-6940",
                     scopusAuthorId: "55353163300",
                     researcherId: "A-3804-2008",
-                    scholarId: "aSZZ5xYAAAAJ"
+                    scholarId: "aSZZ5xYAAAAJ",
+                    researchGate: "Wil_Van_Der_Aalst"
                 },
                 resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
                 desc: "Akademicki złoty standard w dziedzinie Process Mining; otwarta platforma analityczna.",
@@ -573,7 +584,8 @@
                     doi: "10.4121/uuid:3926db30-f712-4394-aebc-75976070e91f", 
                     orcid: "0000-0002-0955-6940",
                     scopusAuthorId: "55353163300",
-                    scholarId: "aSZZ5xYAAAAJ"
+                    scholarId: "aSZZ5xYAAAAJ",
+                    researchGate: "Wil_Van_Der_Aalst"
                 },
                 resourceType: "Repozytoria event logów / Benchmarki", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
                 desc: "Repozytorium otwartych danych zawierające empiryczne logi zdarzeń z corocznych zawodów BPI (Business Process Intelligence).",
@@ -604,7 +616,8 @@
                     orcid: "0000-0002-8692-0691",
                     scopusAuthorId: "7004452140",
                     researcherId: "B-5291-2013",
-                    scholarId: "oV73EecAAAAJ"
+                    scholarId: "oV73EecAAAAJ",
+                    researchGate: "Ken_Peffers"
                 },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
                 desc: "Oryginalna publikacja Peffers et al. (2007) definiująca metodykę DSRM w systemach informatycznych.",
@@ -651,7 +664,8 @@
                     orcid: "0000-0002-5367-1763",
                     scopusAuthorId: "7202410313",
                     researcherId: "H-3129-2011",
-                    scholarId: "FmR7L1IAAAAJ"
+                    scholarId: "FmR7L1IAAAAJ",
+                    researchGate: "David_Teece"
                 },
                 resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic Capabilities (Teece)", accessModel: "Freemium",
                 desc: "Narzędzie mapujące publikacje na osi czasu z zaawansowaną analizą cytowań wstecznych i w przód.",
@@ -680,6 +694,22 @@
                 resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
                 desc: "Wiodąca globalna, otwarta wyszukiwarka literatury naukowej, artykułów recenzowanych, dysertacji doktorskich, książek i cytowań.",
                 academicValue: "Umożliwia pełnotekstową analizę cytowań w przód/wstecz, śledzenie h-indeksu autorów oraz identyfikację publikacji w repozytoriach instytucjonalnych i szarej literaturze."
+            },
+            {
+                id: 27, title: "ResearchGate", url: "https://www.researchgate.net",
+                authors: "Ijad Madisch, Horst Fickenscher, Sören Hofmayer",
+                identifiers: { org: "ResearchGate GmbH", url: "https://www.researchgate.net" },
+                resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Freemium",
+                desc: "Największa akademicka sieć społecznościowa i otwarte repozytorium prac naukowych umożliwiające bezpośredni kontakt z autorami.",
+                academicValue: "Kluczowe źródło do pozyskiwania pełnych tekstów publikacji (author full-text requests) niedostępnych w Open Access, śledzenia projektów badawczych i wskaźników Research Interest."
+            },
+            {
+                id: 28, title: "Social Science Research Network (SSRN)", url: "https://papers.ssrn.com",
+                authors: "Michael Jensen, Wayne Marr (Elsevier B.V.)",
+                identifiers: { org: "Elsevier / SSRN", url: "https://papers.ssrn.com" },
+                resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
+                desc: "Wiodące światowe repozytorium preprintów i working papers z zakresu nauk o zarządzaniu, finansów, controllingu, ekonomii i systemów informacyjnych.",
+                academicValue: "Podstawowa baza do identyfikacji najnowszych trendów i luk badawczych (L1-L8) w obszarach FIN, FINC i BPM przed formalnym cyklem wydawniczym w czasopismach."
             }
         ];
 
@@ -738,7 +768,6 @@
                 activeFilters[cb.dataset.category].push(cb.value);
             });
             
-            // Pobieramy aktualne zapytanie z bocznego lub górnego pola
             const query = (document.getElementById('searchInput').value || document.getElementById('academicLookupInput').value).trim().toLowerCase();
             const queryTokens = query ? query.split(/\s+/).filter(t => t.length > 0) : [];
             
@@ -799,6 +828,12 @@
                         const sids = item.identifiers.scholarId.split(',').map(s => s.trim());
                         sids.forEach(sid => {
                             badges.push(`<a class="id-badge badge-scholar" href="https://scholar.google.com/citations?user=${sid}" target="_blank" rel="noopener noreferrer" title="Profil cytowań w Google Scholar Citations">Google Scholar: ${sid}</a>`);
+                        });
+                    }
+                    if (item.identifiers.researchGate) {
+                        const rgs = item.identifiers.researchGate.split(',').map(s => s.trim());
+                        rgs.forEach(rg => {
+                            badges.push(`<a class="id-badge badge-rg" href="https://www.researchgate.net/profile/${rg}" target="_blank" rel="noopener noreferrer" title="Profil badacza w ResearchGate">ResearchGate: ${rg}</a>`);
                         });
                     }
                     if (item.identifiers.doi) {
@@ -868,13 +903,11 @@
         searchInput.addEventListener('input', () => onSearchInput(searchInput));
         academicLookupInput.addEventListener('input', () => onSearchInput(academicLookupInput));
 
-        // Główna funkcja wyszukiwania w hubie (kliknięcie lub Enter)
         function triggerHubSearch() {
             onSearchInput(academicLookupInput);
             document.getElementById('cardsContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Enter w górnym polu filtruje repozytorium (NIE przenosi na zewnątrz!)
         academicLookupInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
@@ -900,12 +933,13 @@
                                     .replace(/^(arxiv:)/i, '')
                                     .replace(/^(https?:\/\/www\.scopus\.com\/authid\/detail\.uri\?authorId=)/i, '')
                                     .replace(/^(https?:\/\/scholar\.google\.com\/citations\?user=)/i, '')
+                                    .replace(/^(https?:\/\/www\.researchgate\.net\/profile\/)/i, '')
+                                    .replace(/^(https?:\/\/papers\.ssrn\.com\/sol3\/papers\.cfm\?abstract_id=)/i, '')
                                     .trim();
 
             let targetUrl = '';
             let detectedType = '';
 
-            // 'auto' jest uruchamiane TYLKO przez przycisk "⚡ Rozwiąż identyfikator"
             if (engine === 'auto') {
                 if (/^user=([A-Za-z0-9_-]+)$/i.test(cleanQuery)) {
                     const userId = cleanQuery.match(/^user=([A-Za-z0-9_-]+)$/i)[1];
@@ -943,9 +977,8 @@
                     detectedType = `Numer książki/monografii ISBN (${cleanIsbn}) → Otwieranie w rejestrze ISBN`;
                 }
                 else {
-                    // Wpisano zwykły tekst/frazę (np. "BPNAF"): FILTRUJEMY HUB, NIE WYRZUCAJ NA ZEWNĄTRZ!
                     triggerHubSearch();
-                    feedback.textContent = `Wykryto hasło „${query}”. Przefiltrowano zasoby w hubie. Aby przeszukać zewnętrzną bazę, kliknij poniższy przycisk (np. Google Scholar lub arXiv).`;
+                    feedback.textContent = `Wykryto hasło „${query}”. Przefiltrowano zasoby w hubie. Aby przeszukać zewnętrzną bazę, kliknij poniższy przycisk (np. Google Scholar, ResearchGate, SSRN lub arXiv).`;
                     feedback.style.color = 'var(--primary-color)';
                     return;
                 }
@@ -957,6 +990,22 @@
                 } else {
                     targetUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(query)}`;
                     detectedType = `Wyszukiwanie w Google Scholar dla: "${query}"`;
+                }
+            } else if (engine === 'rg') {
+                if (/^[A-Za-z0-9_-]+_[A-Za-z0-9_-]+$/i.test(cleanQuery)) {
+                    targetUrl = `https://www.researchgate.net/profile/${cleanQuery}`;
+                    detectedType = `Profil badacza w ResearchGate: ${cleanQuery}`;
+                } else {
+                    targetUrl = `https://www.researchgate.net/search/publication?q=${encodeURIComponent(query)}`;
+                    detectedType = `Wyszukiwanie publikacji w ResearchGate dla: "${query}"`;
+                }
+            } else if (engine === 'ssrn') {
+                if (/^\d{6,8}$/.test(cleanQuery)) {
+                    targetUrl = `https://papers.ssrn.com/sol3/papers.cfm?abstract_id=${cleanQuery}`;
+                    detectedType = `Preprint SSRN abstract ID: ${cleanQuery}`;
+                } else {
+                    targetUrl = `https://papers.ssrn.com/sol3/results.cfm?txtKey_Words=${encodeURIComponent(query)}`;
+                    detectedType = `Wyszukiwanie working papers w SSRN dla: "${query}"`;
                 }
             } else if (engine === 'orcid') {
                 if (/^0000-000[1-3]-\d{4}-\d{3}[\dX]$/i.test(cleanQuery)) {
@@ -1022,7 +1071,6 @@
             }
         }
 
-        // Resetowanie filtrów
         document.getElementById('clearFilters').addEventListener('click', () => {
             document.querySelectorAll('#filtersContainer input[type="checkbox"]').forEach(cb => cb.checked = false);
             searchInput.value = '';
@@ -1031,7 +1079,6 @@
             renderCards();
         });
         
-        // Obsługa motywu
         const themeToggle = document.getElementById('themeToggle');
 
         function applyTheme(theme) {
@@ -1054,7 +1101,6 @@
             applyTheme(isDark ? 'light' : 'dark');
         });
 
-        // Inicjalizacja
         renderFilters();
         renderCards();
     </script>

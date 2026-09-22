@@ -28,6 +28,8 @@ Dashboard został wyposażony w zintegrowany **Akademicki Multi-Resolver** oraz 
 
 ### 1. Globalne wyszukiwarki akademickie i profile naukowców:
 * **Google Scholar & Citations:** Pełnotekstowe przeszukiwanie publikacji, monografii, dysertacji i cytowań w Google Scholar oraz natychmiastowe otwieranie profili cytowań i wskaźników bibliometrycznych badaczy (h-indeks, i10-indeks, np. profil prof. Wila van der Aalsta `aSZZ5xYAAAAJ`, prof. Marka Szelągowskiego `Y992cM4AAAAJ`).
+* **ResearchGate:** Wiodąca sieć społecznościowo-akademicka łącząca ponad 25 mln badaczy. Umożliwia wyszukiwanie artykułów, bezpośrednie prośby o pełne teksty (Full-text request) oraz analizę profili naukowców i wskaźników Research Interest Score (np. prof. Wil van der Aalst `Wil_Van_Der_Aalst`, prof. Marek Szelągowski `Marek_Szelagowski`, prof. David Teece `David_Teece`).
+* **SSRN (Social Science Research Network / Elsevier):** Kluczowe globalne repozytorium preprintów, working papers i wczesnych wersji artykułów z zakresu nauk społecznych, ekonomii, finansów, controllingu i zarządzania (w tym Business Process Management i Information Systems).
 * **ORCID** (*Open Researcher and Contributor ID*): Trwały, unikalny 16-cyfrowy identyfikator cyfrowy badacza (np. `0000-0002-3860-2975` dla Marka Szelągowskiego, `0000-0002-0955-6940` dla Wila van der Aalsta, `0000-0002-8692-0691` dla Kena Peffersa).
 * **Scopus Author ID** (*Elsevier*): Numeryczny unikatowy identyfikator profilu autora w bazie Scopus (np. `57193739775`, `55353163300`, `7004452140`), powiązany z h-indeksem i cytowaniami w Elsevier.
 * **ResearcherID** (*Web of Science / Clarivate*): Unikalny identyfikator autora w bazie Web of Science Core Collection (np. `AAH-4279-2021`, `A-3804-2008`, `B-5291-2013`, `H-3129-2011`).
@@ -39,9 +41,10 @@ Dashboard został wyposażony w zintegrowany **Akademicki Multi-Resolver** oraz 
 * **arXiv.org:** Identyfikator preprintów i e-printów otwartej nauki (np. `2005.05719`, `1712.05889`, `1606.01540`).
 
 ### 3. Funkcje Multi-Resolvera:
-* **⚡ Inteligentne dopasowanie (Smart Resolver):** Automatycznie rozpoznaje po wyrażeniu regularnym, czy wklejony ciąg to Google Scholar Citations, ORCID, Scopus Author ID, ResearcherID, DOI, ISSN, ISBN czy arXiv, i natychmiast otwiera właściwy rejestr. W przypadku wpisania ogólnej frazy badawczej automatycznie kieruje zapytanie do Google Scholar.
-* **Lokalne filtrowanie tokenowe:** Wpisanie dowolnego identyfikatora, nazwiska lub imienia w panelu bocznym natychmiast filtruje wewnętrzną bazę 26 wyselekcjonowanych zasobów.
-* **Interaktywne odznaki:** Każda karta prezentuje klikalne odznaki referencyjne (Google Scholar, ORCID, Scopus ID, ResearcherID, DOI, ISSN, ISBN, arXiv).
+* **⚡ Inteligentne dopasowanie (Smart Resolver):** Automatycznie rozpoznaje po wyrażeniu regularnym, czy wklejony ciąg to profil ResearchGate, SSRN Abstract ID, Google Scholar Citations, ORCID, Scopus Author ID, ResearcherID, DOI, ISSN, ISBN czy arXiv, i natychmiast otwiera właściwy rejestr. W przypadku wpisania ogólnej frazy badawczej automatycznie kieruje zapytanie do Google Scholar.
+* **Lokalne filtrowanie tokenowe:** Wpisanie dowolnego identyfikatora, nazwiska lub imienia w panelu bocznym natychmiast filtruje wewnętrzną bazę 28 wyselekcjonowanych zasobów.
+* **Dedykowane przyciski multi-silników:** Umożliwia skierowanie zapytania jednym kliknięciem do Google Scholar, ResearchGate, SSRN, arXiv, ORCID, DOI lub CrossRef.
+* **Interaktywne odznaki:** Każda karta prezentuje klikalne odznaki referencyjne (ResearchGate, Google Scholar, ORCID, Scopus ID, ResearcherID, DOI, ISSN, ISBN, arXiv).
 
 ---
 
