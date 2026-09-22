@@ -138,7 +138,7 @@
         /* Główna sekcja */
         main { flex: 1; min-width: 0; }
 
-        /* Panel zewnętrznych silników i resolvera */
+        /* Panel wyszukiwania i multi-resolwera */
         .academic-search-panel {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -169,15 +169,17 @@
         .academic-input-wrapper {
             display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
         .academic-input {
             flex: 1;
+            min-width: 260px;
             padding: 0.75rem 1rem;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-size: 0.92rem;
+            font-size: 0.95rem;
             outline: none;
         }
         .academic-input:focus {
@@ -215,18 +217,32 @@
         .engine-btn.btn-doi:hover { color: #ea580c; border-color: #f58220; }
         .engine-btn.btn-issn:hover { color: #0284c7; border-color: #0284c7; }
         .engine-btn.btn-isbn:hover { color: #7c3aed; border-color: #8b5cf6; }
+        
         .engine-btn.btn-smart {
             background-color: var(--primary-color);
             color: white;
             border-color: var(--primary-color);
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
         }
         .engine-btn.btn-smart:hover {
-            opacity: 0.9;
+            opacity: 0.92;
             color: white;
         }
+        .engine-btn.btn-resolver {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 0.75rem 1rem;
+            font-size: 0.85rem;
+        }
+        .engine-btn.btn-resolver:hover {
+            background-color: var(--callout-bg);
+        }
+        
         .detection-feedback {
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            margin-top: 0.35rem;
             min-height: 1.2rem;
             color: var(--primary-color);
             font-weight: 500;
@@ -367,36 +383,36 @@
 
     <div class="container">
         <aside>
-            <input type="text" id="searchInput" class="search-box" placeholder="Szukaj: autor, ORCID, Scopus, WoS, Scholar, DOI, ISSN, ISBN, arXiv..." aria-label="Wyszukiwanie zasobów">
+            <input type="text" id="searchInput" class="search-box" placeholder="Szukaj: BPNAF, autor, DOI, ISSN..." aria-label="Wyszukiwanie zasobów">
             <button id="clearFilters" class="secondary" style="width: 100%; margin-bottom: 1.5rem;" type="button">Wyczyść filtry</button>
             <div id="filtersContainer"></div>
         </aside>
 
         <main>
-            <!-- Zewnętrzne wyszukiwarki i resolver publikacji -->
+            <!-- Panel wyszukiwarki głównej i resolvera -->
             <section class="academic-search-panel">
-                <h2>🌐 Akademicki Multi-Resolver & Bazy Globalne</h2>
+                <h2>🔍 Wyszukiwarka Zasobów Hubu & Multi-Resolver</h2>
                 <p>
-                    Przeszukuj <strong>Google Scholar</strong>, rozwiązuj profile badaczy (<strong>ORCID</strong>, <strong>Scopus Author ID</strong>, <strong>ResearcherID</strong>) oraz międzynarodowe numery publikacji (<strong>DOI</strong>, czasopism <strong>ISSN</strong>, monografii <strong>ISBN</strong>, preprintów <strong>arXiv</strong>):
+                    Wpisz dowolne hasło (np. <strong>BPNAF</strong>, <strong>DSRM</strong>, <strong>FlexSim</strong>, <strong>Szelągowski</strong>), identyfikator naukowca (<strong>ORCID</strong>, <strong>Scopus ID</strong>, <strong>ResearcherID</strong>) lub publikacji (<strong>DOI</strong>, <strong>ISSN</strong>, <strong>ISBN</strong>, <strong>arXiv</strong>):
                 </p>
                 
                 <div class="search-action-group">
                     <div class="academic-input-wrapper">
-                        <input type="text" id="academicLookupInput" class="academic-input" placeholder="Wklej zapytanie, ORCID (0000-0002-...), Scopus ID, ResearcherID, DOI, ISSN, ISBN, arXiv lub nazwisko..." aria-label="Identyfikator lub zapytanie naukowe">
-                        <button type="button" class="engine-btn btn-smart" onclick="resolveAcademicQuery('auto')" title="Automatyczne rozpoznanie typu identyfikatora">⚡ Rozwiąż / Szukaj</button>
+                        <input type="text" id="academicLookupInput" class="academic-input" placeholder="Wpisz np. BPNAF, Peffers, DOI: 10.17705..., ORCID, ISSN..." aria-label="Wyszukiwarka zasobów i identyfikatorów">
+                        <button type="button" class="engine-btn btn-smart" onclick="triggerHubSearch()" title="Filtruj bazę zasobów hubu">🔍 Szukaj w hubie</button>
+                        <button type="button" class="engine-btn btn-resolver" onclick="resolveAcademicQuery('auto')" title="Automatyczne rozpoznanie i rozwiązanie identyfikatora">⚡ Rozwiąż identyfikator</button>
                     </div>
                     
                     <div class="engine-buttons">
-                        <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.8;">Silniki i bazy:</span>
-                        <button type="button" class="engine-btn btn-scholar" onclick="resolveAcademicQuery('scholar')" title="Wyszukiwarka publikacji i cytowań Google Scholar">🎓 Google Scholar</button>
-                        <button type="button" class="engine-btn btn-orcid" onclick="resolveAcademicQuery('orcid')" title="Open Researcher and Contributor ID">🆔 ORCID</button>
-                        <button type="button" class="engine-btn btn-scopus" onclick="resolveAcademicQuery('scopus')" title="Scopus Author ID (Elsevier)">🔬 Scopus Author ID</button>
-                        <button type="button" class="engine-btn btn-wos" onclick="resolveAcademicQuery('wos')" title="ResearcherID (Web of Science / Clarivate)">🏛️ ResearcherID (WoS)</button>
-                        <button type="button" class="engine-btn btn-arxiv" onclick="resolveAcademicQuery('arxiv')" title="Preprinty arXiv.org">📄 arXiv.org</button>
-                        <button type="button" class="engine-btn btn-doi" onclick="resolveAcademicQuery('doi')" title="Digital Object Identifier System">🔗 DOI System</button>
-                        <button type="button" class="engine-btn btn-issn" onclick="resolveAcademicQuery('issn')" title="Portal ISSN dla czasopism">📰 Portal ISSN</button>
-                        <button type="button" class="engine-btn btn-isbn" onclick="resolveAcademicQuery('isbn')" title="ISBN Search dla książek i monografii">📚 ISBN Search</button>
-                        <button type="button" class="engine-btn" onclick="syncToLocalFilter()" title="Przenieś frazę do lokalnego filtra poniżej">📥 Filtruj w hubie</button>
+                        <span style="font-size: 0.8rem; font-weight: 600; opacity: 0.85;">Szukaj w bazach globalnych:</span>
+                        <button type="button" class="engine-btn btn-scholar" onclick="resolveAcademicQuery('scholar')" title="Otwórz wyszukiwanie w Google Scholar">🎓 Google Scholar</button>
+                        <button type="button" class="engine-btn btn-orcid" onclick="resolveAcademicQuery('orcid')" title="Szukaj profilu w ORCID">🆔 ORCID</button>
+                        <button type="button" class="engine-btn btn-scopus" onclick="resolveAcademicQuery('scopus')" title="Szukaj profilu w Elsevier Scopus">🔬 Scopus Author ID</button>
+                        <button type="button" class="engine-btn btn-wos" onclick="resolveAcademicQuery('wos')" title="Szukaj w Web of Science / ResearcherID">🏛️ ResearcherID (WoS)</button>
+                        <button type="button" class="engine-btn btn-arxiv" onclick="resolveAcademicQuery('arxiv')" title="Szukaj w preprintach arXiv.org">📄 arXiv.org</button>
+                        <button type="button" class="engine-btn btn-doi" onclick="resolveAcademicQuery('doi')" title="Rozwiąż w oficjalnym rejestrze DOI">🔗 DOI System</button>
+                        <button type="button" class="engine-btn btn-issn" onclick="resolveAcademicQuery('issn')" title="Sprawdź w rejestrze ISSN Portal">📰 Portal ISSN</button>
+                        <button type="button" class="engine-btn btn-isbn" onclick="resolveAcademicQuery('isbn')" title="Wyszukaj w bazie ISBN">📚 ISBN Search</button>
                     </div>
                     <div id="detectionFeedback" class="detection-feedback"></div>
                 </div>
@@ -707,7 +723,6 @@
             });
         }
 
-        // Pomocnicza funkcja generująca ciąg identyfikatorów
         function getIdentifiersText(item) {
             if (!item.identifiers) return '';
             return Object.entries(item.identifiers)
@@ -723,15 +738,14 @@
                 activeFilters[cb.dataset.category].push(cb.value);
             });
             
-            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            // Pobieramy aktualne zapytanie z bocznego lub górnego pola
+            const query = (document.getElementById('searchInput').value || document.getElementById('academicLookupInput').value).trim().toLowerCase();
             const queryTokens = query ? query.split(/\s+/).filter(t => t.length > 0) : [];
             
             const filteredData = DATABASE.filter(item => {
                 const idsText = getIdentifiersText(item);
-                // Łączymy wszystkie pola tekstowe łącznie z identyfikatorami (Scholar, ORCID, Scopus, WoS, DOI, ISSN, ISBN, arXiv)
                 const searchableText = `${item.title} ${item.authors} ${idsText} ${item.desc} ${item.academicValue} ${item.resourceType} ${item.researchPhase} ${item.dimension}`.toLowerCase();
                 
-                // Każdy wpisany token (np. Scopus ID, ResearcherID, Scholar ID, ORCID, nazwisko) musi występować w zasobie
                 const matchText = queryTokens.length === 0 || queryTokens.every(token => searchableText.includes(token));
                 
                 let matchFilters = true;
@@ -752,7 +766,7 @@
             container.innerHTML = '';
             
             if (filteredData.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--border-color); font-size: 1.1rem;">Brak wyników spełniających podane kryteria wyszukiwania.</p>';
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--border-color); font-size: 1.1rem;">Brak wyników w hubie dla podanego hasła. Skorzystaj z przycisków powyżej, aby przeszukać bazy globalne.</p>';
                 return;
             }
             
@@ -760,36 +774,33 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 
-                // Generowanie klikalnych badge'y identyfikatorów
                 let idsHtml = '';
                 if (item.identifiers) {
                     const badges = [];
-                    // Identyfikatory naukowców
                     if (item.identifiers.orcid) {
                         const orcids = item.identifiers.orcid.split(',').map(s => s.trim());
                         orcids.forEach(orc => {
-                            badges.push(`<a class="id-badge badge-orcid" href="https://orcid.org/${orc}" target="_blank" rel="noopener noreferrer" title="Profil naukowca w ORCID (Open Researcher and Contributor ID)">ORCID: ${orc}</a>`);
+                            badges.push(`<a class="id-badge badge-orcid" href="https://orcid.org/${orc}" target="_blank" rel="noopener noreferrer" title="Profil naukowca w ORCID">ORCID: ${orc}</a>`);
                         });
                     }
                     if (item.identifiers.scopusAuthorId) {
                         const scopusIds = item.identifiers.scopusAuthorId.split(',').map(s => s.trim());
                         scopusIds.forEach(sid => {
-                            badges.push(`<a class="id-badge badge-scopus" href="https://www.scopus.com/authid/detail.uri?authorId=${sid}" target="_blank" rel="noopener noreferrer" title="Profil autora w bazie Elsevier Scopus (Scopus Author ID)">Scopus ID: ${sid}</a>`);
+                            badges.push(`<a class="id-badge badge-scopus" href="https://www.scopus.com/authid/detail.uri?authorId=${sid}" target="_blank" rel="noopener noreferrer" title="Profil autora w Elsevier Scopus">Scopus ID: ${sid}</a>`);
                         });
                     }
                     if (item.identifiers.researcherId) {
                         const rids = item.identifiers.researcherId.split(',').map(s => s.trim());
                         rids.forEach(rid => {
-                            badges.push(`<a class="id-badge badge-wos" href="https://www.webofscience.com/wos/author/record/${rid}" target="_blank" rel="noopener noreferrer" title="Profil badacza w Clarivate Web of Science (ResearcherID)">ResearcherID: ${rid}</a>`);
+                            badges.push(`<a class="id-badge badge-wos" href="https://www.webofscience.com/wos/author/record/${rid}" target="_blank" rel="noopener noreferrer" title="Profil badacza w Clarivate Web of Science">ResearcherID: ${rid}</a>`);
                         });
                     }
                     if (item.identifiers.scholarId) {
                         const sids = item.identifiers.scholarId.split(',').map(s => s.trim());
                         sids.forEach(sid => {
-                            badges.push(`<a class="id-badge badge-scholar" href="https://scholar.google.com/citations?user=${sid}" target="_blank" rel="noopener noreferrer" title="Profil cytowań i h-indeksu w Google Scholar Citations">Google Scholar: ${sid}</a>`);
+                            badges.push(`<a class="id-badge badge-scholar" href="https://scholar.google.com/citations?user=${sid}" target="_blank" rel="noopener noreferrer" title="Profil cytowań w Google Scholar Citations">Google Scholar: ${sid}</a>`);
                         });
                     }
-                    // Identyfikatory publikacji
                     if (item.identifiers.doi) {
                         badges.push(`<a class="id-badge badge-doi" href="https://doi.org/${item.identifiers.doi}" target="_blank" rel="noopener noreferrer" title="Rozwiąż w oficjalnym rejestrze DOI">DOI: ${item.identifiers.doi}</a>`);
                     }
@@ -800,7 +811,7 @@
                         badges.push(`<a class="id-badge badge-issn" href="https://portal.issn.org/resource/ISSN/${item.identifiers.eissn}" target="_blank" rel="noopener noreferrer" title="Sprawdź e-ISSN">e-ISSN: ${item.identifiers.eissn}</a>`);
                     }
                     if (item.identifiers.isbn) {
-                        badges.push(`<a class="id-badge badge-isbn" href="https://isbnsearch.org/isbn/${item.identifiers.isbn.replace(/-/g, '')}" target="_blank" rel="noopener noreferrer" title="Wyszukaj książkę/monografię w bazie ISBN">ISBN: ${item.identifiers.isbn}</a>`);
+                        badges.push(`<a class="id-badge badge-isbn" href="https://isbnsearch.org/isbn/${item.identifiers.isbn.replace(/-/g, '')}" target="_blank" rel="noopener noreferrer" title="Wyszukaj w rejestrze ISBN">ISBN: ${item.identifiers.isbn}</a>`);
                     }
                     if (item.identifiers.arxiv) {
                         const arxivLink = item.identifiers.arxiv.startsWith('http') ? item.identifiers.arxiv : (item.identifiers.arxiv.includes('.') ? `https://arxiv.org/abs/${item.identifiers.arxiv}` : `https://arxiv.org/archive/${item.identifiers.arxiv}`);
@@ -830,21 +841,60 @@
         }
 
         // ==========================================
-        // Obsługa Multi-Resolvera Akademickiego
+        // Logika Wyszukiwania w Hubie i Dwukierunkowej Synchronizacji
+        // ==========================================
+        const searchInput = document.getElementById('searchInput');
+        const academicLookupInput = document.getElementById('academicLookupInput');
+        const feedback = document.getElementById('detectionFeedback');
+
+        function onSearchInput(source) {
+            const val = source.value;
+            if (source === searchInput) {
+                academicLookupInput.value = val;
+            } else {
+                searchInput.value = val;
+            }
+            renderCards();
+
+            const count = document.querySelectorAll('#cardsContainer .card').length;
+            if (val.trim()) {
+                feedback.textContent = `Przefiltrowano repozytorium: widoczne zasoby: ${count}. Możesz też kliknąć przyciski baz globalnych poniżej.`;
+                feedback.style.color = 'var(--primary-color)';
+            } else {
+                feedback.textContent = '';
+            }
+        }
+
+        searchInput.addEventListener('input', () => onSearchInput(searchInput));
+        academicLookupInput.addEventListener('input', () => onSearchInput(academicLookupInput));
+
+        // Główna funkcja wyszukiwania w hubie (kliknięcie lub Enter)
+        function triggerHubSearch() {
+            onSearchInput(academicLookupInput);
+            document.getElementById('cardsContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Enter w górnym polu filtruje repozytorium (NIE przenosi na zewnątrz!)
+        academicLookupInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                triggerHubSearch();
+            }
+        });
+
+        // ==========================================
+        // Logika Resolvera Identyfikatorów i Baz Globalnych
         // ==========================================
         function resolveAcademicQuery(engine) {
-            const input = document.getElementById('academicLookupInput');
-            const feedback = document.getElementById('detectionFeedback');
-            let query = input.value.trim();
+            let query = academicLookupInput.value.trim() || searchInput.value.trim();
             
             if (!query) {
-                feedback.textContent = 'Wpisz zapytanie, identyfikator (Scholar, ORCID, Scopus, WoS, DOI, ISSN, ISBN, arXiv) lub nazwisko.';
+                feedback.textContent = 'Wpisz identyfikator (DOI, ORCID, ISSN, ISBN, arXiv) lub frazę badawczą przed kliknięciem.';
                 feedback.style.color = '#ef4444';
-                input.focus();
+                academicLookupInput.focus();
                 return;
             }
 
-            // Normalizacja prefiksów
             const cleanQuery = query.replace(/^(doi:|https?:\/\/doi\.org\/)/i, '')
                                     .replace(/^(https?:\/\/orcid\.org\/)/i, '')
                                     .replace(/^(arxiv:)/i, '')
@@ -855,55 +905,49 @@
             let targetUrl = '';
             let detectedType = '';
 
-            // Wykrywanie automatyczne lub wymuszony silnik
+            // 'auto' jest uruchamiane TYLKO przez przycisk "⚡ Rozwiąż identyfikator"
             if (engine === 'auto') {
-                // 1. Sprawdzenie parametru Google Scholar Citations: user=... lub 12-znakowy identyfikator profilu
                 if (/^user=([A-Za-z0-9_-]+)$/i.test(cleanQuery)) {
                     const userId = cleanQuery.match(/^user=([A-Za-z0-9_-]+)$/i)[1];
                     targetUrl = `https://scholar.google.com/citations?user=${userId}`;
-                    detectedType = `Wykryto Google Scholar Citations ID (${userId}) → Otwieranie profilu cytowań`;
+                    detectedType = `Identyfikator Google Scholar Citations (${userId}) → Otwieranie profilu`;
                 }
-                // 2. Sprawdzenie ORCID: 0000-000x-xxxx-xxxx
                 else if (/^0000-000[1-3]-\d{4}-\d{3}[\dX]$/i.test(cleanQuery)) {
                     targetUrl = `https://orcid.org/${cleanQuery}`;
-                    detectedType = `Wykryto ORCID (${cleanQuery}) → Otwieranie profilu badacza w ORCID.org`;
+                    detectedType = `Identyfikator ORCID (${cleanQuery}) → Otwieranie profilu w ORCID.org`;
                 }
-                // 3. Sprawdzenie ResearcherID (Web of Science): np. A-3804-2008 lub AAH-4279-2021
                 else if (/^[A-Za-z]{1,3}-\d{4}-\d{4}$/i.test(cleanQuery)) {
                     targetUrl = `https://www.webofscience.com/wos/author/record/${cleanQuery.toUpperCase()}`;
-                    detectedType = `Wykryto ResearcherID (${cleanQuery.toUpperCase()}) → Otwieranie profilu w Web of Science`;
+                    detectedType = `ResearcherID (${cleanQuery.toUpperCase()}) → Otwieranie profilu w Web of Science`;
                 }
-                // 4. Sprawdzenie Scopus Author ID: 10-11 cyfr
                 else if (/^\d{10,11}$/.test(cleanQuery)) {
                     targetUrl = `https://www.scopus.com/authid/detail.uri?authorId=${cleanQuery}`;
-                    detectedType = `Wykryto Scopus Author ID (${cleanQuery}) → Otwieranie profilu w bazie Elsevier Scopus`;
+                    detectedType = `Scopus Author ID (${cleanQuery}) → Otwieranie profilu w Scopus`;
                 }
-                // 5. Sprawdzenie DOI: np. 10.1000/182 lub 10.xxxx/...
                 else if (/^10\.\d{4,9}\/[-._;()/:A-Za-z0-9]+$/i.test(cleanQuery)) {
                     targetUrl = `https://doi.org/${cleanQuery}`;
-                    detectedType = `Wykryto numer DOI (${cleanQuery}) → Przekierowanie do rejestru DOI.org`;
+                    detectedType = `Numer DOI (${cleanQuery}) → Rozwiązywanie przez DOI.org`;
                 }
-                // 6. Sprawdzenie arXiv ID: np. 2005.05719 lub 1712.05889
                 else if (/^\d{4}\.\d{4,5}(v\d+)?$/i.test(cleanQuery)) {
                     targetUrl = `https://arxiv.org/abs/${cleanQuery}`;
-                    detectedType = `Wykryto numer arXiv (${cleanQuery}) → Otwieranie preprintu w arXiv.org`;
+                    detectedType = `Numer arXiv ID (${cleanQuery}) → Otwieranie preprintu w arXiv.org`;
                 }
-                // 7. Sprawdzenie ISSN: 8 znaków (np. 1463-7154 lub 14637154)
                 else if (/^\d{4}-?\d{3}[\dX]$/i.test(cleanQuery)) {
                     const formattedIssn = cleanQuery.length === 8 ? `${cleanQuery.slice(0, 4)}-${cleanQuery.slice(4)}` : cleanQuery;
                     targetUrl = `https://portal.issn.org/resource/ISSN/${formattedIssn}`;
-                    detectedType = `Wykryto numer czasopisma ISSN (${formattedIssn}) → Otwieranie w oficjalnym portalu ISSN`;
+                    detectedType = `Numer czasopisma ISSN (${formattedIssn}) → Otwieranie w rejestrze ISSN`;
                 }
-                // 8. Sprawdzenie ISBN: 10 lub 13 cyfr
                 else if (/^(97[89])?\d{9}[\dX]$/i.test(cleanQuery.replace(/[-\s]/g, ''))) {
                     const cleanIsbn = cleanQuery.replace(/[-\s]/g, '');
                     targetUrl = `https://isbnsearch.org/isbn/${cleanIsbn}`;
-                    detectedType = `Wykryto numer książki/monografii ISBN (${cleanIsbn}) → Otwieranie w rejestrze ISBN`;
+                    detectedType = `Numer książki/monografii ISBN (${cleanIsbn}) → Otwieranie w rejestrze ISBN`;
                 }
-                // 9. Domyślnie - fraza tekstowa (wyszukaj w Google Scholar)
                 else {
-                    targetUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(query)}`;
-                    detectedType = `Fraza badawcza → Wyszukiwanie publikacji i cytowań w Google Scholar`;
+                    // Wpisano zwykły tekst/frazę (np. "BPNAF"): FILTRUJEMY HUB, NIE WYRZUCAJ NA ZEWNĄTRZ!
+                    triggerHubSearch();
+                    feedback.textContent = `Wykryto hasło „${query}”. Przefiltrowano zasoby w hubie. Aby przeszukać zewnętrzną bazę, kliknij poniższy przycisk (np. Google Scholar lub arXiv).`;
+                    feedback.style.color = 'var(--primary-color)';
+                    return;
                 }
             } else if (engine === 'scholar') {
                 if (/^user=([A-Za-z0-9_-]+)$/i.test(cleanQuery)) {
@@ -912,15 +956,15 @@
                     detectedType = `Profil autora w Google Scholar Citations: ${userId}`;
                 } else {
                     targetUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(query)}`;
-                    detectedType = `Wyszukiwanie publikacji i cytowań w Google Scholar dla: "${query}"`;
+                    detectedType = `Wyszukiwanie w Google Scholar dla: "${query}"`;
                 }
             } else if (engine === 'orcid') {
                 if (/^0000-000[1-3]-\d{4}-\d{3}[\dX]$/i.test(cleanQuery)) {
                     targetUrl = `https://orcid.org/${cleanQuery}`;
-                    detectedType = `Profil naukowca w ORCID: ${cleanQuery}`;
+                    detectedType = `Profil badacza w ORCID: ${cleanQuery}`;
                 } else {
                     targetUrl = `https://orcid.org/orcid-search/search?searchQuery=${encodeURIComponent(query)}`;
-                    detectedType = `Wyszukiwanie profilu badacza w ORCID dla: "${query}"`;
+                    detectedType = `Wyszukiwanie w ORCID dla: "${query}"`;
                 }
             } else if (engine === 'scopus') {
                 if (/^\d{7,11}$/.test(cleanQuery)) {
@@ -928,23 +972,23 @@
                     detectedType = `Profil Scopus Author ID: ${cleanQuery}`;
                 } else {
                     targetUrl = `https://www.scopus.com/search/form.uri?display=authorLookup`;
-                    detectedType = `Wyszukiwarka autorów Elsevier Scopus dla: "${query}"`;
+                    detectedType = `Wyszukiwarka autorów Scopus dla: "${query}"`;
                 }
             } else if (engine === 'wos') {
                 if (/^[A-Za-z]{1,3}-\d{4}-\d{4}$/i.test(cleanQuery)) {
                     targetUrl = `https://www.webofscience.com/wos/author/record/${cleanQuery.toUpperCase()}`;
-                    detectedType = `Profil ResearcherID (Web of Science): ${cleanQuery.toUpperCase()}`;
+                    detectedType = `Profil ResearcherID: ${cleanQuery.toUpperCase()}`;
                 } else {
                     targetUrl = `https://www.webofscience.com/wos/author/search`;
-                    detectedType = `Wyszukiwarka ResearcherID / Web of Science Core Collection`;
+                    detectedType = `Wyszukiwarka Web of Science ResearcherID`;
                 }
             } else if (engine === 'arxiv') {
                 if (/^\d{4}\.\d{4,5}(v\d+)?$/i.test(cleanQuery)) {
                     targetUrl = `https://arxiv.org/abs/${cleanQuery}`;
                     detectedType = `Otwieranie preprintu arXiv ID: ${cleanQuery}`;
                 } else {
-                    targetUrl = `https://arxiv.org/search/?query=${encodeURIComponent(query)}&searchtype=all`;
-                    detectedType = `Wyszukiwanie w arXiv dla: "${query}"`;
+                    targetUrl = `https://arxiv.org/search/?query=${encodeURIComponent(query)}&searchtype=all&source=header`;
+                    detectedType = `Wyszukiwanie w arXiv.org dla: "${query}"`;
                 }
             } else if (engine === 'doi') {
                 if (/^10\.\d{4,9}\/[-._;()/:A-Za-z0-9]+$/i.test(cleanQuery)) {
@@ -959,7 +1003,7 @@
                 if (cleanDigits.length === 8) {
                     const formatted = `${cleanDigits.slice(0, 4)}-${cleanDigits.slice(4)}`;
                     targetUrl = `https://portal.issn.org/resource/ISSN/${formatted}`;
-                    detectedType = `Otwieranie rejestru czasopisma ISSN: ${formatted}`;
+                    detectedType = `Rejestr czasopisma ISSN: ${formatted}`;
                 } else {
                     targetUrl = `https://portal.issn.org/api/search?search[]=all=${encodeURIComponent(query)}`;
                     detectedType = `Wyszukiwanie w portalu ISSN: "${query}"`;
@@ -967,7 +1011,7 @@
             } else if (engine === 'isbn') {
                 const cleanIsbn = cleanQuery.replace(/[-\s]/g, '');
                 targetUrl = `https://isbnsearch.org/search?s=${encodeURIComponent(cleanIsbn || query)}`;
-                detectedType = `Wyszukiwanie publikacji ISBN: "${cleanIsbn || query}"`;
+                detectedType = `Wyszukiwanie ISBN: "${cleanIsbn || query}"`;
             }
 
             feedback.textContent = detectedType;
@@ -978,28 +1022,16 @@
             }
         }
 
-        function syncToLocalFilter() {
-            const query = document.getElementById('academicLookupInput').value.trim();
-            const searchInput = document.getElementById('searchInput');
-            searchInput.value = query;
-            renderCards();
-            searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            searchInput.focus();
-        }
-
-        document.getElementById('academicLookupInput').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                resolveAcademicQuery('auto');
-            }
-        });
-
-        document.getElementById('searchInput').addEventListener('input', renderCards);
+        // Resetowanie filtrów
         document.getElementById('clearFilters').addEventListener('click', () => {
             document.querySelectorAll('#filtersContainer input[type="checkbox"]').forEach(cb => cb.checked = false);
-            document.getElementById('searchInput').value = '';
+            searchInput.value = '';
+            academicLookupInput.value = '';
+            feedback.textContent = '';
             renderCards();
         });
         
+        // Obsługa motywu
         const themeToggle = document.getElementById('themeToggle');
 
         function applyTheme(theme) {
@@ -1022,6 +1054,7 @@
             applyTheme(isDark ? 'light' : 'dark');
         });
 
+        // Inicjalizacja
         renderFilters();
         renderCards();
     </script>
