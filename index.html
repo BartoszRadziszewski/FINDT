@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIN DT – Academic Research Hub</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --text-color: #2d3748;
+            --card-bg: #ffffff;
+            --primary-color: #0056b3;
+            --border-color: #e2e8f0;
+            --tag-bg: #edf2f7;
+            --tag-text: #2d3748;
+            --hover-shadow: 0 8px 16px rgba(0, 86, 179, 0.08);
+            --callout-bg: rgba(0, 86, 179, 0.05);
+        }
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --card-bg: #1e293b;
+            --primary-color: #38bdf8;
+            --border-color: #334155;
+            --tag-bg: #334155;
+            --tag-text: #e2e8f0;
+            --hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            --callout-bg: rgba(56, 189, 248, 0.08);
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            line-height: 1.6; 
+            transition: background-color 0.25s, color 0.25s; 
+        }
+        
+        header { 
+            background-color: var(--card-bg); 
+            padding: 1.25rem 2rem; 
+            border-bottom: 1px solid var(--border-color); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+        }
+        h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
+        .header-controls { display: flex; gap: 1rem; align-items: center; }
+        
+        button { 
+            cursor: pointer; 
+            padding: 0.5rem 1rem; 
+            border: none; 
+            border-radius: 6px; 
+            background-color: var(--primary-color); 
+            color: white; 
+            font-weight: 600; 
+            font-size: 0.875rem; 
+            transition: all 0.2s ease; 
+        }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+        button.secondary { 
+            background-color: transparent; 
+            color: var(--primary-color); 
+            border: 1px solid var(--primary-color); 
+        }
+        
+        .container { 
+            display: flex; 
+            padding: 2rem; 
+            gap: 2rem; 
+            max-width: 1600px; 
+            margin: 0 auto; 
+        }
+        
+        /* Sidebar / Filtry */
+        aside { 
+            flex: 0 0 320px; 
+            background-color: var(--card-bg); 
+            padding: 1.5rem; 
+            border-radius: 8px; 
+            border: 1px solid var(--border-color); 
+            height: fit-content; 
+            position: sticky; 
+            top: 90px; 
+        }
+        .search-box { 
+            width: 100%; 
+            padding: 0.75rem 1rem; 
+            margin-bottom: 1rem; 
+            border: 1px solid var(--border-color); 
+            border-radius: 6px; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-size: 0.9rem; 
+            outline: none;
+        }
+        .search-box:focus { border-color: var(--primary-color); }
+        .filter-group { margin-bottom: 1.25rem; }
+        .filter-group h3 { 
+            font-size: 0.85rem; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em; 
+            color: var(--primary-color); 
+            margin-bottom: 0.6rem; 
+            padding-bottom: 0.3rem; 
+            border-bottom: 1px solid var(--border-color); 
+        }
+        .filter-label { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            margin-bottom: 0.45rem; 
+            font-size: 0.875rem; 
+            cursor: pointer; 
+            user-select: none;
+        }
+        .filter-label input[type="checkbox"] { 
+            accent-color: var(--primary-color); 
+            width: 16px; 
+            height: 16px; 
+            cursor: pointer; 
+        }
+        
+        /* Główna sekcja */
+        main { flex: 1; min-width: 0; }
+        .stats-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 1.25rem; 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+        }
+        
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); 
+            gap: 1.5rem; 
+        }
+        .card { 
+            background-color: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            padding: 1.5rem; 
+            display: flex; 
+            flex-direction: column; 
+            transition: transform 0.2s ease, box-shadow 0.2s ease; 
+        }
+        .card:hover { 
+            transform: translateY(-3px); 
+            box-shadow: var(--hover-shadow); 
+        }
+        .card h2 { 
+            font-size: 1.15rem; 
+            margin-bottom: 0.6rem; 
+            line-height: 1.3; 
+        }
+        .card h2 a { 
+            color: var(--primary-color); 
+            text-decoration: none; 
+        }
+        .card h2 a:hover { text-decoration: underline; }
+        
+        .tags { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 6px; 
+            margin-bottom: 1rem; 
+        }
+        .tag { 
+            background-color: var(--tag-bg); 
+            color: var(--tag-text); 
+            font-size: 0.72rem; 
+            padding: 0.25rem 0.55rem; 
+            border-radius: 4px; 
+            font-weight: 600; 
+        }
+        
+        .desc { 
+            font-size: 0.88rem; 
+            margin-bottom: 1rem; 
+            flex-grow: 1; 
+            color: var(--text-color); 
+        }
+        .academic-value { 
+            font-size: 0.82rem; 
+            padding: 0.8rem; 
+            background-color: var(--callout-bg); 
+            border-left: 3px solid var(--primary-color); 
+            border-radius: 0 4px 4px 0; 
+        }
+        
+        @media (max-width: 960px) {
+            .container { flex-direction: column; padding: 1rem; }
+            aside { position: static; width: 100%; top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>FIN DT – Academic Research Hub</h1>
+        <div class="header-controls">
+            <button id="themeToggle" class="secondary" type="button">Tryb Ciemny</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside>
+            <input type="text" id="searchInput" class="search-box" placeholder="Szukaj po tytule, opisie, zastosowaniu..." aria-label="Wyszukiwanie zasobów">
+            <button id="clearFilters" class="secondary" style="width: 100%; margin-bottom: 1.5rem;" type="button">Wyczyść filtry</button>
+            <div id="filtersContainer"></div>
+        </aside>
+
+        <main>
+            <div class="stats-bar">
+                <span id="resultCount">Widoczne zasoby: 0</span>
+            </div>
+            <div class="grid" id="cardsContainer"></div>
+        </main>
+    </div>
+
+    <script>
+        const DATABASE = [
+            {
+                id: 1, title: "Scopus (Elsevier)", url: "https://www.scopus.com",
+                resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
+                desc: "Największa baza abstraktów i cytowań z recenzowanej literatury naukowej. Wymagana do rzetelnego SLR.",
+                academicValue: "Podstawowe źródło do systematycznego przeglądu literatury (SLR) identyfikującego luki L1-L8 w obszarze dynamic BPM i sztucznej inteligencji."
+            },
+            {
+                id: 2, title: "Web of Science (Clarivate)", url: "https://clarivate.com/webofsciencegroup/solutions/web-of-science/",
+                resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
+                desc: "Kluczowa baza indeksacyjna posiadająca najsilniejsze mierniki jakości (Impact Factor) dla nauk o zarządzaniu.",
+                academicValue: "Pozwala na filtrację literatury najwyższej jakości, odrzucając czasopisma drapieżne przed włączeniem do metaanalizy BPNAF."
+            },
+            {
+                id: 3, title: "Business Process Management Journal", url: "https://www.emerald.com/insight/publication/issn/1463-7154",
+                resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
+                desc: "Wiodące czasopismo publikujące badania nad BPM, procesami dynamicznymi i modelowaniem.",
+                academicValue: "Główne docelowe czasopismo do publikacji części empirycznej rozprawy oraz kluczowe źródło prac Szelągowskiego i van der Aalsta."
+            },
+            {
+                id: 4, title: "IEEE Xplore", url: "https://ieeexplore.ieee.org/",
+                resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Wymaga licencji akademickiej",
+                desc: "Baza inżynieryjna i informatyczna. Niezbędna przy badaniach nad architekturą Multi-Agent Systems (MAS) i RL.",
+                academicValue: "Umożliwia zgłębienie warstwy technicznej agentów (Q-learning, PPO) do zastosowania w warstwie decyzyjnej cyfrowego bliźniaka."
+            },
+            {
+                id: 5, title: "arXiv (cs.AI, cs.MA)", url: "https://arxiv.org/",
+                resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Access",
+                desc: "Otwarte repozytorium e-printów. Najszybsze źródło wiedzy o nowościach w modelach językowych (LLM) i systemach agentowych.",
+                academicValue: "Zapewnia dostęp do badań typu state-of-the-art w AI jeszcze przed długim cyklem recenzji wydawniczej."
+            },
+            {
+                id: 6, title: "Rayyan", url: "https://www.rayyan.ai/",
+                resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Freemium",
+                desc: "Narzędzie internetowe wspierające badaczy w szybkim screeningu tytułów i abstraktów przy przeglądach systematycznych.",
+                academicValue: "Usprawnia selekcję artykułów zgodnie z wymogami metodyki PRISMA, dokumentując proces odrzucania abstraktów do załącznika rozprawy."
+            },
+            {
+                id: 7, title: "VOSviewer", url: "https://www.vosviewer.com/",
+                resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
+                desc: "Oprogramowanie do konstruowania i wizualizacji sieci bibliometrycznych (cytowania, współwystępowanie słów kluczowych).",
+                academicValue: "Generuje mapy powiązań naukowych, pomagając zidentyfikować luki i potwierdzić marginalne przecięcie obszarów Dynamic BPM i Agentic AI."
+            },
+            {
+                id: 8, title: "FlexSim", url: "https://www.flexsim.com/",
+                resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Komercyjne",
+                desc: "Oprogramowanie do symulacji zdarzeń dyskretnych 3D (DES) z modułami analitycznymi i integracją z Pythonem.",
+                academicValue: "Tworzy fizyczną/procesową warstwę cyfrowego bliźniaka w skali TRL 4-5 dla przeprowadzania eksperymentów z procesami Kategorii 2-4."
+            },
+            {
+                id: 9, title: "Gymnasium (Farama Foundation)", url: "https://gymnasium.farama.org/",
+                resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
+                desc: "Standardowe API do projektowania środowisk uczących się ze wzmocnieniem (RL), będące forkiem OpenAI Gym.",
+                academicValue: "Służy do enkapsulacji modelu symulacyjnego w środowisko decyzyjne (stan, akcja, nagroda), na którym trenowany jest agent."
+            },
+            {
+                id: 10, title: "Stable-Baselines3", url: "https://stable-baselines3.readthedocs.io/",
+                resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
+                desc: "Zestaw zwalidowanych implementacji algorytmów uczenia ze wzmocnieniem w PyTorch (PPO, SAC, A2C).",
+                academicValue: "Dostarcza zweryfikowane akademicko implementacje algorytmów decyzyjnych dla autonomicznego agenta sterującego w cyfrowym bliźniaku."
+            },
+            {
+                id: 11, title: "Ray / RLlib", url: "https://docs.ray.io/en/latest/rllib/index.html",
+                resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
+                desc: "Biblioteka open-source do wysoce skalowalnego uczenia ze wzmocnieniem i systemów wieloagentowych (MARL).",
+                academicValue: "Kluczowa technologia do testowania architektur wieloagentowych (hierarchical RL) dla złożonych procesów biznesowych."
+            },
+            {
+                id: 12, title: "CrewAI", url: "https://www.crewai.com/",
+                resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
+                desc: "Framework do orkiestracji systemów wieloagentowych opartych na modelach językowych (LLM).",
+                academicValue: "Umożliwia stworzenie w cyfrowym bliźniaku warstwy decyzyjnej opartej na rolach menedżerskich obsługujących wysoce nieustrukturyzowane wyjątki."
+            },
+            {
+                id: 13, title: "PM4Py", url: "https://pm4py.fit.fraunhofer.de/",
+                resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
+                desc: "Biblioteka w języku Python do Process Miningu stworzona przez Fraunhofer FIT.",
+                academicValue: "Służy do ekstrakcji wiedzy z logów wygenerowanych przez bliźniaka (zasada udokumentowania wykonania Szelągowskiego) w celu oceny zachowań algorytmu."
+            },
+            {
+                id: 14, title: "ProM Framework", url: "https://www.promtools.org/",
+                resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Source",
+                desc: "Akademicki złoty standard w dziedzinie Process Mining; otwarta platforma analityczna.",
+                academicValue: "Pozwala na wizualną i statystyczną walidację różnic między procesem statycznym a adaptacyjnymi interwencjami agenta decyzyjnego."
+            },
+            {
+                id: 15, title: "4TU.ResearchData (BPI Challenges)", url: "https://data.4tu.nl/search?q=BPI%20Challenge",
+                resourceType: "Repozytoria event logów / Benchmarki", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
+                desc: "Repozytorium otwartych danych zawierające empiryczne logi zdarzeń z corocznych zawodów BPI (Business Process Intelligence).",
+                academicValue: "Dostarcza empirycznych logów zdarzeń (standard XES) dla procesów biznesowych do wstępnej kalibracji modeli w cyfrowym bliźniaku."
+            },
+            {
+                id: 16, title: "Microsoft Power BI", url: "https://powerbi.microsoft.com/",
+                resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Wymaga licencji akademickiej",
+                desc: "Platforma Business Intelligence do tworzenia interaktywnych dashboardów, wskaźników KPI i analiz controllingowych.",
+                academicValue: "Stanowi warstwę analityczno-finansową w architekturze badawczej — pozwala generować dynamiczny wirtualny P&L oceniający efektywność decyzji agenta AI."
+            },
+            {
+                id: 17, title: "Connected Papers", url: "https://www.connectedpapers.com/",
+                resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic BPM & BPNAF", accessModel: "Freemium",
+                desc: "Wizualne narzędzie do mapowania powiązanych artykułów naukowych w grafie podobieństwa.",
+                academicValue: "Pomaga prześledzić ewolucję teorii Dynamic Capabilities Teece'a i odnaleźć próby jej adaptacji w systemach sztucznej inteligencji."
+            },
+            {
+                id: 18, title: "DSRM Peffers' Framework Docs", url: "https://aisel.aisnet.org/jais/vol8/iss12/3/",
+                resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
+                desc: "Oryginalna publikacja Peffers et al. (2007) definiująca metodykę DSRM w systemach informatycznych.",
+                academicValue: "Stanowi kręgosłup metodologiczny dysertacji, determinując realizację 6 kroków: od identyfikacji problemu do komunikacji artefaktu badawczego."
+            },
+            {
+                id: 19, title: "Qualtrics", url: "https://www.qualtrics.com/",
+                resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza IV: Walidacja ekspercka (Delphi)", dimension: "Dynamic BPM & BPNAF", accessModel: "Wymaga licencji akademickiej",
+                desc: "Zaawansowana platforma badawcza do projektowania ankiet i paneli ekspertów.",
+                academicValue: "Podstawowe środowisko do przeprowadzenia wielorundowych badań techniką Delphi walidujących opracowany model 3D-BPNAF."
+            },
+            {
+                id: 20, title: "Python (pandas, scipy, statsmodels)", url: "https://www.python.org/",
+                resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Open Source",
+                desc: "Ekosystem języka Python do zaawansowanej analizy danych, wnioskowania ekonometrycznego i testów statystycznych.",
+                academicValue: "Kluczowe środowisko do weryfikacji hipotez ramowych (H1-H3) — obliczanie istotności wariancji, efektów moderacji oraz ROI z eksperymentów symulacyjnych."
+            },
+            {
+                id: 21, title: "Kaggle (Financial & Process Datasets)", url: "https://www.kaggle.com/",
+                resourceType: "Repozytoria event logów / Benchmarki", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Open Access",
+                desc: "Platforma data science zawierająca publiczne zbiory danych z procesów finansowych i transakcyjnych.",
+                academicValue: "Dostarcza danych empirycznych do kalibracji modeli kosztowych i parametrów zakłóceń w warstwie symulacyjnej cyfrowego bliźniaka."
+            },
+            {
+                id: 22, title: "BPMN 2.0 / CMMN 1.1 Specification (OMG)", url: "https://www.omg.org/",
+                resourceType: "Przegląd literatury / Baza bibliograficzna", researchPhase: "Faza III: Artefakt 3D-BPNAF (DSRM)", dimension: "Dynamic BPM & BPNAF", accessModel: "Open Access",
+                desc: "Oficjalne specyfikacje standardów BPMN (Business Process Model and Notation) oraz CMMN (Case Management Model and Notation).",
+                academicValue: "Podstawa teoretyczna do wyznaczenia granic, w których notacja z góry narzucona ustępuje modelowaniu dynamicznemu i adaptacyjnemu sterowanemu przez agenta."
+            },
+            {
+                id: 23, title: "Litmaps", url: "https://www.litmaps.com/",
+                resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza I: SLR (PRISMA 2020)", dimension: "Dynamic Capabilities (Teece)", accessModel: "Freemium",
+                desc: "Narzędzie mapujące publikacje na osi czasu z zaawansowaną analizą cytowań wstecznych i w przód.",
+                academicValue: "Kluczowe przy identyfikacji transferu koncepcji zdolności dynamicznych (Teece 1997) na grunt autonomicznych systemów decyzyjnych."
+            },
+            {
+                id: 24, title: "PettingZoo", url: "https://pettingzoo.farama.org/",
+                resourceType: "Silniki symulacyjne / Biblioteki AI", researchPhase: "Faza II: Case Studies / Symulacje (TRL 4-5)", dimension: "AI Agents & Reinforcement Learning", accessModel: "Open Source",
+                desc: "Biblioteka Pythona do modelowania środowisk wieloagentowych (Multi-Agent RL), standaryzująca interfejsy dla gier i symulacji zespołowych.",
+                academicValue: "Niezbędna, gdy cyfrowy bliźniak symuluje procesy, w których współdziałają (bądź konkurują) agenty reprezentujące odrębne jednostki organizacyjne."
+            },
+            {
+                id: 25, title: "Miro", url: "https://miro.com/",
+                resourceType: "Narzędzia DSRM / Walidacja empiryczna", researchPhase: "Faza IV: Walidacja ekspercka (Delphi)", dimension: "Digital Twins & FlexSim/PowerBI", accessModel: "Freemium",
+                desc: "Interaktywna tablica wirtualna do wizualizacji koncepcji, diagramów i współpracy zespołowej.",
+                academicValue: "Środowisko do moderowania warsztatów panelu ekspertów podczas ewaluacji użyteczności artefaktu 3D-BPNAF."
+            }
+        ];
+
+        const filterCategories = [
+            { key: 'resourceType', label: 'Typ zasobu' },
+            { key: 'researchPhase', label: 'Faza badawcza (FIN DT)' },
+            { key: 'dimension', label: 'Wymiar projektu' },
+            { key: 'accessModel', label: 'Model dostępu' }
+        ];
+
+        function renderFilters() {
+            const container = document.getElementById('filtersContainer');
+            container.innerHTML = '';
+            
+            filterCategories.forEach(category => {
+                const uniqueValues = [...new Set(DATABASE.map(item => item[category.key]))].sort();
+                
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'filter-group';
+                
+                const heading = document.createElement('h3');
+                heading.textContent = category.label;
+                groupDiv.appendChild(heading);
+                
+                uniqueValues.forEach(val => {
+                    const label = document.createElement('label');
+                    label.className = 'filter-label';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = val;
+                    checkbox.dataset.category = category.key;
+                    checkbox.addEventListener('change', renderCards);
+                    
+                    label.appendChild(checkbox);
+                    label.appendChild(document.createTextNode(val));
+                    groupDiv.appendChild(label);
+                });
+                
+                container.appendChild(groupDiv);
+            });
+        }
+
+        function renderCards() {
+            const activeFilters = {};
+            filterCategories.forEach(cat => activeFilters[cat.key] = []);
+            
+            document.querySelectorAll('#filtersContainer input[type="checkbox"]:checked').forEach(cb => {
+                activeFilters[cb.dataset.category].push(cb.value);
+            });
+            
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            
+            const filteredData = DATABASE.filter(item => {
+                const matchText = !query || 
+                                item.title.toLowerCase().includes(query) || 
+                                item.desc.toLowerCase().includes(query) ||
+                                item.academicValue.toLowerCase().includes(query);
+                
+                let matchFilters = true;
+                filterCategories.forEach(cat => {
+                    if (activeFilters[cat.key].length > 0) {
+                        if (!activeFilters[cat.key].includes(item[cat.key])) {
+                            matchFilters = false;
+                        }
+                    }
+                });
+                
+                return matchText && matchFilters;
+            });
+            
+            document.getElementById('resultCount').textContent = `Widoczne zasoby: ${filteredData.length} z ${DATABASE.length}`;
+            
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+            
+            if (filteredData.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--border-color); font-size: 1.1rem;">Brak wyników spełniających podane kryteria wyszukiwania.</p>';
+                return;
+            }
+            
+            filteredData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                card.innerHTML = `
+                    <h2><a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a></h2>
+                    <div class="tags">
+                        <span class="tag">${item.resourceType}</span>
+                        <span class="tag">${item.researchPhase}</span>
+                        <span class="tag">${item.dimension}</span>
+                        <span class="tag">${item.accessModel}</span>
+                    </div>
+                    <div class="desc">${item.desc}</div>
+                    <div class="academic-value"><strong>Wkład w projekt:</strong> ${item.academicValue}</div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', renderCards);
+        document.getElementById('clearFilters').addEventListener('click', () => {
+            document.querySelectorAll('#filtersContainer input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.getElementById('searchInput').value = '';
+            renderCards();
+        });
+        
+        const themeToggle = document.getElementById('themeToggle');
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = 'Tryb Jasny';
+            } else {
+                document.body.removeAttribute('data-theme');
+                themeToggle.textContent = 'Tryb Ciemny';
+            }
+            localStorage.setItem('findt_theme', theme);
+        }
+
+        const initialTheme = localStorage.getItem('findt_theme') || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(initialTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            applyTheme(isDark ? 'light' : 'dark');
+        });
+
+        renderFilters();
+        renderCards();
+    </script>
+</body>
+</html>
