@@ -22,22 +22,25 @@ Głównym celem projektu jest operacyjne wsparcie procesu badawczego rozprawy do
 * **FIN / FINC** (*Finance and Controlling*) – modelowanie rentowności, wirtualny P&L i ocena zwrotu z inwestycji (Power BI, python/statsmodels).
 * **BPNAF** (*Business Process Nature Assessment Framework*) – wielowymiarowa ocena natury, ustrukturyzowania i podatności procesów na automatyzację kognitywną.
 
-## 🌐 Wyszukiwanie, Identyfikatory Naukowe i Resolver
+## 🌐 Wyszukiwanie, Identyfikatory Naukowców i Publikacji (Multi-Resolver)
 
-Dashboard został wyposażony w zintegrowany **Akademicki Multi-Resolver** oraz wyszukiwarkę tokenową obsługującą oficjalne międzynarodowe standardy identyfikacji dorobku naukowego:
+Dashboard został wyposażony w zintegrowany **Akademicki Multi-Resolver** oraz wyszukiwarkę tokenową obsługującą kluczowe międzynarodowe standardy identyfikacji badaczy oraz publikacji naukowych:
 
-1. **Zewnętrzne silniki akademickie (Multi-Resolver):**
-   * **arXiv.org:** Bezpośrednie otwieranie preprintów wg numeru (np. `2005.05719`, `1712.05889`) lub wyszukiwanie literatury otwartej w repozytorium cs.AI / cs.MA.
-   * **ORCID.org:** Wyszukiwanie naukowców oraz natychmiastowe rozwiązywanie profili po 16-cyfrowym identyfikatorze badacza (np. `0000-0002-3860-2975` dla Marka Szelągowskiego, `0000-0002-0955-6940` dla Wila van der Aalsta, `0000-0002-8692-0691` dla Kena Peffersa).
-   * **DOI System (Digital Object Identifier):** Oficjalny cyfrowy identyfikator publikacji i danych (np. `10.17705/1jais.00140`, `10.1093/nar/gkw365`) – natychmiastowe rozwiązywanie via `doi.org` lub przeszukiwanie bazy CrossRef.
-   * **Portal ISSN (International Standard Serial Number):** Oficjalny międzynarodowy 8-cyfrowy identyfikator czasopism naukowych i wydawnictw ciągłych (np. `1463-7154` dla *Business Process Management Journal*, `1536-9323` dla *JAIS*).
-   * **ISBN Search (International Standard Book Number):** Międzynarodowy standard numeracji książek i monografii naukowych (10- i 13-cyfrowy, np. `978-3-540-28895-4`).
-   * **⚡ Inteligentne dopasowanie (Smart Resolver):** Automatyczne rozpoznawanie formatu wklejonego ciągu (DOI, ISSN, ISBN, ORCID, arXiv ID) i przekierowanie do odpowiedniego rejestru.
+### 1. Identyfikatory naukowców (Researcher Profiles):
+* **ORCID** (*Open Researcher and Contributor ID*): Trwały, unikalny 16-cyfrowy identyfikator cyfrowy badacza (np. `0000-0002-3860-2975` dla Marka Szelągowskiego, `0000-0002-0955-6940` dla Wila van der Aalsta, `0000-0002-8692-0691` dla Kena Peffersa). Umożliwia natychmiastowe otwarcie profilu lub wyszukiwanie naukowca w rejestrze ORCID.
+* **Scopus Author ID** (*Elsevier*): Numeryczny unikatowy identyfikator profilu autora w bazie Scopus (np. `57193739775`, `55353163300`, `7004452140`), powiązany z h-indeksem i cytowaniami w Elsevier.
+* **ResearcherID** (*Web of Science / Clarivate*): Unikalny identyfikator autora w bazie Web of Science Core Collection (np. `AAH-4279-2021`, `A-3804-2008`, `B-5291-2013`, `H-3129-2011`).
 
-2. **Lokalne filtrowanie po metadanych:**
-   * **Wyszukiwanie po autorze:** Wpisanie imienia i/lub nazwiska (np. *Marek Szelągowski*, *Wil van der Aalst*, *Ken Peffers*, *David Teece*, *Wes McKinney*) z obsługą dowolnej kolejności tokenów.
-   * **Wyszukiwanie po numerach publikacji:** Wpisanie fragmentu lub pełnego DOI, ISSN, ISBN, ORCID lub identyfikatora arXiv w polu wyszukiwania błyskawicznie filtruje wewnętrzną bazę 25 zasobów.
-   * **Interaktywne odznaki na kartach:** Każda karta prezentuje klikalne odznaki DOI, ISSN, ISBN, ORCID i arXiv przenoszące bezpośrednio do oficjalnych baz referencyjnych.
+### 2. Międzynarodowa numeracja publikacji naukowych:
+* **DOI System** (*Digital Object Identifier*): Oficjalny cyfrowy identyfikator artykułów, rozdziałów i zbiorów danych (np. `10.17705/1jais.00140`, `10.1093/nar/gkw365`) z bezpośrednim rozwiązywaniem przez `doi.org` i CrossRef.
+* **Portal ISSN** (*International Standard Serial Number*): 8-cyfrowy standard numeracji czasopism naukowych i wydawnictw ciągłych (np. `1463-7154` dla *Business Process Management Journal*, `1536-9323` dla *JAIS*).
+* **ISBN Search** (*International Standard Book Number*): Międzynarodowy standard numeracji książek i monografii naukowych (np. `978-3-540-28895-4`).
+* **arXiv.org:** Identyfikator preprintów i e-printów otwartej nauki (np. `2005.05719`, `1712.05889`, `1606.01540`).
+
+### 3. Funkcje Multi-Resolvera:
+* **⚡ Inteligentne dopasowanie (Smart Resolver):** Automatycznie rozpoznaje po wyrażeniu regularnym, czy wklejony ciąg to ORCID, Scopus Author ID, ResearcherID, DOI, ISSN, ISBN czy arXiv, i natychmiast otwiera właściwy rejestr.
+* **Lokalne filtrowanie tokenowe:** Wpisanie dowolnego identyfikatora, nazwiska lub imienia w panelu bocznym natychmiast filtruje wewnętrzną bazę 25 zasobów.
+* **Interaktywne odznaki:** Każda karta prezentuje klikalne odznaki referencyjne (ORCID, Scopus ID, ResearcherID, DOI, ISSN, ISBN, arXiv).
 
 ---
 
